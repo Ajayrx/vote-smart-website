@@ -31,9 +31,14 @@ const NFCCard: React.FC<NFCCardProps> = ({
     )}>
       <CardContent className="p-0 h-full">
         <div className={cn(
-          "absolute inset-0 bg-gradient-to-br from-voting-primary to-voting-secondary",
-          isFake && "from-voting-danger/80 to-voting-danger"
+          "absolute inset-0 bg-gradient-to-br",
+          isFake ? "from-voting-danger/80 to-voting-danger" : "from-[#0a3d62] to-[#3498db]"
         )}/>
+        
+        {/* Card edges glow effect */}
+        <div className="absolute inset-0 border border-cyan-300/30 rounded-xl overflow-hidden">
+          <div className="absolute inset-0 border border-cyan-400/20 rounded-xl opacity-75"></div>
+        </div>
         
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
           <div className="absolute top-3 left-3 flex items-center space-x-1">
@@ -46,18 +51,18 @@ const NFCCard: React.FC<NFCCardProps> = ({
               <span className="text-2xl font-bold">FAKE CARD</span>
             ) : (
               <>
-                <span className="text-xl mb-1">Digital NFC</span>
+                <span className="text-xl mb-1 text-cyan-200 font-light tracking-wide">Digital NFC</span>
                 <span className="text-lg font-semibold">VOTER ID CARD</span>
                 
                 {(isCardWritten || isScanned) && voterData && (
-                  <div className="mt-3 bg-white/20 backdrop-blur-sm p-2 rounded-md w-5/6 text-center">
+                  <div className="mt-3 bg-black/20 backdrop-blur-sm p-2 rounded-md w-5/6 text-center border border-cyan-400/30">
                     {voterData.name && (
-                      <div className="text-sm font-medium truncate">{voterData.name}</div>
+                      <div className="text-sm font-medium truncate text-cyan-100">{voterData.name}</div>
                     )}
                     {voterData.voter_id && (
                       <div className="text-xs opacity-90 truncate">ID: {voterData.voter_id}</div>
                     )}
-                    <div className="text-xs opacity-70 mt-1">07/27</div>
+                    <div className="text-xs opacity-70 mt-1 text-cyan-300">07/27</div>
                   </div>
                 )}
               </>
@@ -71,6 +76,9 @@ const NFCCard: React.FC<NFCCardProps> = ({
             </svg>
           </div>
         </div>
+
+        {/* Holographic effect */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-cyan-500/10 to-transparent opacity-30"></div>
       </CardContent>
     </Card>
   );
