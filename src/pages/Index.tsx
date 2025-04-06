@@ -2,7 +2,7 @@
 import { useState } from "react";
 import VoterVerification from "@/components/VoterVerification";
 import { Button } from "@/components/ui/button";
-import { Info, Github, FileInput, ScanLine, ShieldCheck, Building2, ChevronDown, Home } from "lucide-react";
+import { Info, Github, FileInput, ScanLine, ShieldCheck, Building2, ChevronDown, Home, CreditCard, Hospital, Banknote } from "lucide-react";
 import { 
   Dialog, 
   DialogContent, 
@@ -22,9 +22,47 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
+import NFCCard from "@/components/NFCCard";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState<'voting' | 'services'>('voting');
+  const [selectedUser, setSelectedUser] = useState<string | null>("priya");
+  const [showServiceDetails, setShowServiceDetails] = useState<string | null>(null);
+  
+  const userProfiles = {
+    arjun: {
+      name: "Arjun Kumar",
+      voter_id: "NCR-789456",
+      age: "35",
+      card: {
+        name: "Arjun Kumar",
+        voter_id: "NCR-789456"
+      }
+    },
+    priya: {
+      name: "Priya Sharma",
+      voter_id: "NCR-664278",
+      age: "62",
+      card: {
+        name: "Priya Sharma",
+        voter_id: "NCR-664278"
+      },
+      pension: {
+        account_id: "PCT-6543",
+        monthly_amount: "₹3,200",
+        last_payout: "1st April 2025"
+      }
+    },
+    rahul: {
+      name: "Rahul Singh",
+      voter_id: "NCR-112233",
+      age: "28",
+      card: {
+        name: "Rahul Singh",
+        voter_id: "NCR-112233"
+      }
+    }
+  };
   
   return (
     <div className="min-h-screen bg-slate-50">
@@ -195,27 +233,145 @@ const Index = () => {
         )}
         
         {activeSection === 'services' && (
-          <div className="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-lg">
-            <h2 className="text-2xl font-bold text-voting-primary mb-6 text-center">
-              Government Services
-            </h2>
-            <p className="text-gray-600 mb-8 text-center max-w-3xl mx-auto">
-              Access various government services and information securely.
-            </p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {governmentServices.map((service) => (
-                <div key={service.title} className="bg-white border border-gray-200 p-5 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                  <div className="h-12 w-12 bg-voting-accent rounded-full flex items-center justify-center mb-4">
-                    {service.icon}
-                  </div>
-                  <h4 className="font-semibold text-lg mb-2">{service.title}</h4>
-                  <p className="text-sm text-gray-600 mb-4">{service.description}</p>
-                  <Button variant="outline" className="w-full border-voting-primary text-voting-primary hover:bg-voting-primary hover:text-white">
-                    Access Service
-                  </Button>
+          <div className="max-w-5xl mx-auto">
+            {/* Dark theme header section */}
+            <div className="bg-[#0A1220] text-white p-8 rounded-t-xl shadow-lg">
+              <div className="text-center max-w-3xl mx-auto mb-8">
+                <h2 className="text-4xl font-bold mb-6">
+                  Government <span className="text-cyan-400">Services</span>
+                </h2>
+                <p className="text-lg text-gray-300">
+                  Project Ncrypt's identity verification system extends beyond voting to secure access to essential government services.
+                </p>
+                <div className="mt-4 flex items-center justify-center text-sm">
+                  <Info className="h-4 w-4 mr-2" />
+                  <span>Sound On</span>
                 </div>
-              ))}
+              </div>
+
+              {/* User card selection */}
+              <div className="max-w-4xl mx-auto bg-[#0F1A2A] p-6 rounded-lg border border-gray-800">
+                <h3 className="text-xl font-medium text-center mb-6">Select User Card</h3>
+                
+                <div className="flex flex-wrap justify-center gap-4 mb-6">
+                  {Object.entries(userProfiles).map(([id, profile]) => (
+                    <button
+                      key={id}
+                      onClick={() => {
+                        setSelectedUser(id);
+                        setShowServiceDetails(null);
+                      }}
+                      className={cn(
+                        "px-6 py-3 rounded-md flex items-center text-gray-300 transition-colors",
+                        selectedUser === id ? "bg-voting-secondary text-white" : "bg-gray-800/50 hover:bg-gray-800"
+                      )}
+                    >
+                      <User className="h-5 w-5 mr-2" />
+                      {profile.name}
+                    </button>
+                  ))}
+                </div>
+                
+                {/* Selected card display */}
+                <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+                  <div className="relative">
+                    {selectedUser && (
+                      <NFCCard 
+                        isCardWritten={true}
+                        voterData={userProfiles[selectedUser].card}
+                        className="shadow-[0_0_20px_rgba(59,130,246,0.5)]"
+                      />
+                    )}
+                  </div>
+                  
+                  {/* Service details panel */}
+                  {showServiceDetails === 'pension' && selectedUser === 'priya' && (
+                    <div className="bg-[#0F1A2A] border border-gray-800 rounded-lg p-4 max-w-md w-full">
+                      <div className="flex items-center text-cyan-400 mb-4">
+                        <CreditCard className="h-5 w-5 mr-2" />
+                        <h4 className="text-lg font-semibold">Pension Account Details</h4>
+                      </div>
+                      
+                      <div className="space-y-3 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-gray-400">Name:</span>
+                          <span className="font-medium text-white">{userProfiles.priya.name}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-400">Age:</span>
+                          <span className="font-medium text-white">{userProfiles.priya.age}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-400">Pension Account ID:</span>
+                          <span className="font-medium text-white">{userProfiles.priya.pension.account_id}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-400">Monthly Pension:</span>
+                          <span className="font-medium text-cyan-400">{userProfiles.priya.pension.monthly_amount}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-400">Last Payout:</span>
+                          <span className="font-medium text-white">{userProfiles.priya.pension.last_payout}</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              {/* Services grid */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+                <button
+                  onClick={() => setShowServiceDetails(null)}
+                  className="bg-[#0F1A2A] hover:bg-[#162032] border border-gray-800 rounded-lg p-6 text-center transition-all duration-300"
+                >
+                  <div className="h-12 w-12 bg-gray-800/80 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Banknote className="h-6 w-6 text-cyan-400" />
+                  </div>
+                  <h4 className="text-lg font-medium mb-1">Ration Center</h4>
+                  <p className="text-sm text-gray-400">Public Distribution System</p>
+                </button>
+                <button
+                  onClick={() => setShowServiceDetails(null)}
+                  className="bg-[#0F1A2A] hover:bg-[#162032] border border-gray-800 rounded-lg p-6 text-center transition-all duration-300"
+                >
+                  <div className="h-12 w-12 bg-gray-800/80 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Hospital className="h-6 w-6 text-cyan-400" />
+                  </div>
+                  <h4 className="text-lg font-medium mb-1">Health Hospital</h4>
+                  <p className="text-sm text-gray-400">Government Medical Services</p>
+                </button>
+                <button
+                  onClick={() => setShowServiceDetails('pension')}
+                  className={cn(
+                    "bg-[#0F1A2A] hover:bg-[#162032] border border-gray-800 rounded-lg p-6 text-center transition-all duration-300",
+                    showServiceDetails === 'pension' && "ring-2 ring-cyan-400"
+                  )}
+                >
+                  <div className="h-12 w-12 bg-gray-800/80 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CreditCard className="h-6 w-6 text-cyan-400" />
+                  </div>
+                  <h4 className="text-lg font-medium mb-1">Pension Centre</h4>
+                  <p className="text-sm text-gray-400">Government Pension Scheme</p>
+                </button>
+              </div>
+              
+              {/* Call to action button */}
+              <div className="flex justify-center mt-8">
+                <Button
+                  onClick={() => setActiveSection('voting')}
+                  className="bg-cyan-500 hover:bg-cyan-600 text-white py-2 px-6 rounded-full flex items-center"
+                >
+                  <ScanLine className="mr-2 h-5 w-5" />
+                  Explore Voting Verification
+                </Button>
+              </div>
+              
+              {/* NFC activated notification */}
+              <div className="absolute right-8 bottom-8 max-w-xs bg-[#0F1A2A] border border-gray-800 rounded-lg p-4 shadow-lg hidden md:block">
+                <div className="text-sm font-medium mb-1">NFC Card Activated</div>
+                <div className="text-xs text-gray-400">Tap on a government service to access your details.</div>
+              </div>
             </div>
           </div>
         )}
@@ -242,38 +398,23 @@ const Index = () => {
   );
 };
 
-// Government services data
-const governmentServices = [
-  {
-    title: "Voter Registration",
-    description: "Register as a voter or update your voter information in the national database.",
-    icon: <FileInput className="h-6 w-6 text-voting-primary" />,
-  },
-  {
-    title: "ID Card Services",
-    description: "Apply for a new ID card, renew an existing one, or report a lost card.",
-    icon: <ShieldCheck className="h-6 w-6 text-voting-primary" />,
-  },
-  {
-    title: "Voting Information",
-    description: "Access information about upcoming elections, polling stations, and voting procedures.",
-    icon: <Info className="h-6 w-6 text-voting-primary" />,
-  },
-  {
-    title: "Verification Center",
-    description: "Verify the authenticity of government documents and ID cards.",
-    icon: <ScanLine className="h-6 w-6 text-voting-primary" />,
-  },
-  {
-    title: "Election Results",
-    description: "View the results of past elections and ongoing vote counting.",
-    icon: <Building2 className="h-6 w-6 text-voting-primary" />,
-  },
-  {
-    title: "Help & Support",
-    description: "Get assistance with government services and technical support.",
-    icon: <Home className="h-6 w-6 text-voting-primary" />,
-  },
-];
+// Missing User icon component
+const User = ({ className }: { className?: string }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <circle cx="12" cy="8" r="5" />
+      <path d="M20 21a8 8 0 1 0-16 0" />
+    </svg>
+  );
+};
 
 export default Index;

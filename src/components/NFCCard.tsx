@@ -57,6 +57,7 @@ const NFCCard: React.FC<NFCCardProps> = ({
                     {voterData.voter_id && (
                       <div className="text-xs opacity-90 truncate">ID: {voterData.voter_id}</div>
                     )}
+                    <div className="text-xs opacity-70 mt-1">07/27</div>
                   </div>
                 )}
               </>
