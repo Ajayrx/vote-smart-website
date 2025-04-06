@@ -2,7 +2,7 @@
 import { useState } from "react";
 import VoterVerification from "@/components/VoterVerification";
 import { Button } from "@/components/ui/button";
-import { Info, Github } from "lucide-react";
+import { Info, Github, FileInput, ScanLine, ShieldCheck } from "lucide-react";
 import { 
   Dialog, 
   DialogContent, 
