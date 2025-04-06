@@ -1,73 +1,79 @@
-# Welcome to your Lovable project
+# 🎬 Project Ncrypt — Demo Walkthrough
+ Demo of your NFC-based offline voter verification + government services access system via website.
 
-## Project info
+# 🎯 Objective of the Demo
+    Show how an NFC Voter Card is created, verified, and used in an offline environment.
 
-**URL**: https://lovable.dev/projects/7e6a9d15-cac6-46be-a8dd-e166fa42ce24
+### 💾 Step 1: Create a Secure NFC Voter Card
 
-## How can I edit this code?
+    ✅ Simulates the process of card creation done by government officials.
 
-There are several ways of editing your application.
+- User Enters Voter Details
 
-**Use Lovable**
+- Name, Age, Voter ID, Fingerprint Data (simulated)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/7e6a9d15-cac6-46be-a8dd-e166fa42ce24) and start prompting.
+- Click Encrypt & Write
 
-Changes made via Lovable will be committed automatically to this repo.
+- Voter data is encrypted
 
-**Use your preferred IDE**
+- A Gov-signature [Need to be added  " key - gov_secure_2025 "]
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- Data is written to the simulated NFC card (voter_card.txt)
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🔍 Step 2: Scan & Verify the NFC Card
 
-Follow these steps:
+    🔐 Verifies if the card is genuine or fake
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+- Click Scan Card
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- System asks for the Government Signature for verification.
 
-# Step 3: Install the necessary dependencies.
-npm i
+- Gov-Sign Verification
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+      > If correct:
 
-**Edit a file directly in GitHub**
+  - ✅ Scans the NFC card
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+  - Compares internal signature & fingerprint hash
 
-**Use GitHub Codespaces**
+  - Marks card as Original
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+        > If incorrect:
 
-## What technologies are used for this project?
+   - ❌ Card is marked Invalid
 
-This project is built with:
+   - Shows alert: "Fake Gov Signature Mismatch – Card Rejected"
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
 
-## How can I deploy this project?
+# 🏛️ Access Government Services (Post Verification)
+    > If card is valid, the user can now simulate accessing key services.
 
-Simply open [Lovable](https://lovable.dev/projects/7e6a9d15-cac6-46be-a8dd-e166fa42ce24) and click on Share -> Publish.
+📦 Ration Center:
+Name, Age
 
-## Can I connect a custom domain to my Lovable project?
+  - Ration Card ID
 
-Yes it is!
+  - Eligible Items (Wheat, Rice, etc.)
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+  - Next Delivery Date
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+🏥 Government Hospital:
+Name, Age
+
+   - Blood Group
+
+   - Treatment Balance (e.g. ₹18,000)
+
+   - Last Claim Details
+
+👴 Pension Center:
+Age-based check (if age ≥ 60)
+
+   - Monthly Pension Amount
+
+   - Last Payout Date
+
+# Important Notice 
+
+   Still working on goverment services demo section.
+
