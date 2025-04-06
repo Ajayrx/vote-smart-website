@@ -47,6 +47,7 @@ const VoterVerification: React.FC = () => {
   const [showFakeAlert, setShowFakeAlert] = useState(false);
   const [isCardScanned, setIsCardScanned] = useState(false);
   const [isFakeCard, setIsFakeCard] = useState(false);
+  const [isCardWritten, setIsCardWritten] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -65,6 +66,7 @@ const VoterVerification: React.FC = () => {
 
     const encrypted = encrypt_data(voterData);
     setEncryptedCard(encrypted);
+    setIsCardWritten(true);
     
     toast({
       title: "✅ Success",
@@ -192,7 +194,10 @@ const VoterVerification: React.FC = () => {
                 </div>
                 
                 <div className="flex flex-col items-center justify-center">
-                  <NFCCard />
+                  <NFCCard 
+                    isCardWritten={isCardWritten} 
+                    voterData={isCardWritten ? { name: voterData.name, voter_id: voterData.voter_id } : undefined}
+                  />
                   <div className="text-sm text-muted-foreground mt-4 text-center">
                     <p className="flex items-center justify-center">
                       <ShieldCheck className="mr-1 h-4 w-4 text-voting-success" />
@@ -262,7 +267,11 @@ const VoterVerification: React.FC = () => {
                 </div>
                 
                 <div className="flex flex-col items-center justify-center">
-                  <NFCCard isScanned={isCardScanned} isFake={isFakeCard} />
+                  <NFCCard 
+                    isScanned={isCardScanned} 
+                    isFake={isFakeCard} 
+                    voterData={scannedData ? { name: scannedData.name, voter_id: scannedData.voter_id } : undefined}
+                  />
                   <div className="text-sm text-muted-foreground mt-4">
                     <p className="text-center">Place NFC card on the reader</p>
                   </div>

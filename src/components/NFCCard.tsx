@@ -7,18 +7,26 @@ interface NFCCardProps {
   isScanned?: boolean;
   isFake?: boolean;
   className?: string;
+  voterData?: {
+    name?: string;
+    voter_id?: string;
+  };
+  isCardWritten?: boolean;
 }
 
 const NFCCard: React.FC<NFCCardProps> = ({ 
   isScanned = false, 
   isFake = false, 
-  className 
+  className,
+  voterData,
+  isCardWritten = false
 }) => {
   return (
     <Card className={cn(
       "relative w-64 h-40 rounded-xl overflow-hidden transition-all duration-300",
       isScanned && !isFake && "animate-pulse-glow",
       isFake && "border-2 border-voting-danger",
+      isCardWritten && "animate-pulse-glow",
       className
     )}>
       <CardContent className="p-0 h-full">
@@ -40,6 +48,17 @@ const NFCCard: React.FC<NFCCardProps> = ({
               <>
                 <span className="text-xl mb-1">Digital NFC</span>
                 <span className="text-lg font-semibold">VOTER ID CARD</span>
+                
+                {(isCardWritten || isScanned) && voterData && (
+                  <div className="mt-3 bg-white/20 backdrop-blur-sm p-2 rounded-md w-5/6 text-center">
+                    {voterData.name && (
+                      <div className="text-sm font-medium truncate">{voterData.name}</div>
+                    )}
+                    {voterData.voter_id && (
+                      <div className="text-xs opacity-90 truncate">ID: {voterData.voter_id}</div>
+                    )}
+                  </div>
+                )}
               </>
             )}
           </div>
