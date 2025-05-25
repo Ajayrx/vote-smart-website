@@ -1,8 +1,7 @@
-
 import { useState } from "react";
 import VoterVerification from "@/components/VoterVerification";
 import { Button } from "@/components/ui/button";
-import { Info, Github, FileInput, ScanLine, ShieldCheck, Building2, ChevronDown, Home, CreditCard, Hospital, Banknote, Package, VolumeX, Volume2, AlertTriangle } from "lucide-react";
+import { Info, Github, FileInput, ScanLine, ShieldCheck, Building2, ChevronDown, Home, CreditCard, Hospital, Package, AlertTriangle } from "lucide-react";
 import { 
   Dialog, 
   DialogContent, 
@@ -13,12 +12,9 @@ import {
 } from "@/components/ui/dialog";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
@@ -71,9 +67,6 @@ const Index = () => {
   const [activeSection, setActiveSection] = useState<'voting' | 'services'>('voting');
   const [selectedUser, setSelectedUser] = useState<string | null>("priya");
   const [showServiceDetails, setShowServiceDetails] = useState<string | null>(null);
-  const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
-  const [isVerified, setIsVerified] = useState<boolean>(false);
-  const [verificationAttempted, setVerificationAttempted] = useState<boolean>(false);
   const [showMoreCards, setShowMoreCards] = useState<boolean>(false);
   
   const userProfiles: Record<string, UserProfile> = {
@@ -229,7 +222,6 @@ const Index = () => {
         doctor: "Dr. Reddy"
       }
     },
-    // Fake users for testing
     fake_user1: {
       name: "John Hacker",
       voter_id: "FAKE-001",
@@ -280,7 +272,6 @@ const Index = () => {
         doctor: "UNAUTHORIZED"
       }
     },
-    // Additional cards for show more feature
     suresh: {
       name: "Suresh Reddy",
       voter_id: "NCR-445566",
@@ -335,56 +326,6 @@ const Index = () => {
         upcoming_appointment: "June 5, 2025",
         doctor: "Dr. Mehta"
       }
-    },
-    fake_user3: {
-      name: "Bob Criminal",
-      voter_id: "FAKE-003",
-      age: "42",
-      card: {
-        name: "Bob Criminal",
-        voter_id: "FAKE-003"
-      },
-      gov_signature: "fake_signature_invalid",
-      is_fake: true,
-      ration: {
-        card_number: "FAKE-003",
-        family_members: "1",
-        category: "INVALID",
-        monthly_allocation: "UNAUTHORIZED ACCESS",
-        last_collection: "NEVER"
-      },
-      medical: {
-        id: "FAKE-003",
-        coverage: "NONE",
-        last_checkup: "INVALID",
-        upcoming_appointment: "BLOCKED",
-        doctor: "UNAUTHORIZED"
-      }
-    },
-    fake_user4: {
-      name: "Alice Scammer",
-      voter_id: "FAKE-004",
-      age: "31",
-      card: {
-        name: "Alice Scammer",
-        voter_id: "FAKE-004"
-      },
-      gov_signature: "fake_signature_invalid",
-      is_fake: true,
-      ration: {
-        card_number: "FAKE-004",
-        family_members: "1",
-        category: "INVALID",
-        monthly_allocation: "UNAUTHORIZED ACCESS",
-        last_collection: "NEVER"
-      },
-      medical: {
-        id: "FAKE-004",
-        coverage: "NONE",
-        last_checkup: "INVALID",
-        upcoming_appointment: "BLOCKED",
-        doctor: "UNAUTHORIZED"
-      }
     }
   };
 
@@ -415,13 +356,10 @@ const Index = () => {
   const handleUserChange = (userId: string) => {
     setSelectedUser(userId);
     setShowServiceDetails(null);
-    setVerificationAttempted(false);
-    setIsVerified(false);
   };
 
   const currentUser = selectedUser ? userProfiles[selectedUser] : null;
 
-  // Get initial 8 cards (mix of real and fake)
   const initialCards = Object.keys(userProfiles).slice(0, 8);
   const additionalCards = Object.keys(userProfiles).slice(8);
   const cardsToShow = showMoreCards ? Object.keys(userProfiles) : initialCards;
@@ -595,349 +533,296 @@ const Index = () => {
         )}
         
         {activeSection === 'services' && (
-          <div className="max-w-6xl mx-auto">
-            {/* Futuristic themed header section */}
-            <div className="bg-[#060c17] text-white p-4 sm:p-8 rounded-t-xl shadow-lg relative overflow-hidden">
-              {/* Background grid effect */}
-              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMxMTMzNTUiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzAgMEMxMy40MzEgMCAwIDEzLjQzMSAwIDMwYzAgMTYuNTY5IDEzLjQzMSAzMCAzMCAzMCAxNi41NjkgMCAzMC0xMy40MzEgMzAtMzBDNjAgMTMuNDMxIDQ2LjU2OSAwIDMwIDB6bTAgMS42MjJDNDUuNjc5IDEuNjIyIDU4LjM3OCAxNC4zMjEgNTguMzc4IDMwIDU4LjM3OCA0NS42NzkgNDUuNjc5IDU4LjM3OCAzMCA1OC4zNzggMTQuMzIxIDU4LjM3OCAxLjYyMiA0NS42NzkgMS42MjIgMzAgMS42MjIgMTQuMzIxIDE0LjMyMSAxLjYyMiAzMCAxLjYyMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-10 bg-center"></div>
-              
-              {/* Digital particles effect */}
-              <div className="absolute inset-0 opacity-20">
-                <div className="absolute w-1 h-1 bg-cyan-500 rounded-full top-10 left-20 animate-pulse"></div>
-                <div className="absolute w-1 h-1 bg-cyan-500 rounded-full top-20 left-40 animate-pulse delay-150"></div>
-                <div className="absolute w-1 h-1 bg-cyan-500 rounded-full top-40 left-60 animate-pulse delay-300"></div>
-                <div className="absolute w-1 h-1 bg-cyan-500 rounded-full top-60 left-20 animate-pulse delay-500"></div>
-                <div className="absolute w-1 h-1 bg-cyan-500 rounded-full top-30 left-80 animate-pulse delay-700"></div>
-              </div>
-              
-              {/* Blue accent line */}
-              <div className="absolute -top-4 left-0 w-full h-1 bg-cyan-500 opacity-60 blur-sm"></div>
-
-              <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8 relative z-10">
-                <h2 className="text-2xl sm:text-4xl font-bold mb-2 flex items-center justify-center flex-wrap">
-                  Government <span className="bg-gradient-to-r from-cyan-400 to-blue-500 text-transparent bg-clip-text ml-2">Services</span>
-                </h2>
-                <div className="h-1 w-16 sm:w-24 bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto mb-4 sm:mb-6 rounded-full"></div>
-                <p className="text-sm sm:text-lg text-gray-300">
-                  Project Ncrypt's identity verification system extends beyond voting to secure access to essential government services.
+          <div className="w-full max-w-6xl mx-auto">
+            <Card className="shadow-xl border-0 bg-gradient-to-br from-white to-slate-50">
+              <CardHeader className="pb-4 sm:pb-6">
+                <CardTitle className="flex items-center text-voting-primary text-xl sm:text-2xl">
+                  <Building2 className="mr-2 h-5 w-5 sm:h-6 sm:w-6 flex-shrink-0" />
+                  <span>Government Services Portal</span>
+                </CardTitle>
+                <p className="text-gray-600 text-sm sm:text-base">
+                  Access government services using your verified voter ID card
                 </p>
-              </div>
-
-              {/* User card selection */}
-              <div className="max-w-5xl mx-auto bg-[#0a1926] p-4 sm:p-6 rounded-lg border border-gray-800 relative">
-                <div className="absolute -top-px left-10 right-10 h-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent"></div>
-                <div className="absolute -bottom-px left-10 right-10 h-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent"></div>
-                
-                <h3 className="text-lg sm:text-xl font-medium text-center mb-4 sm:mb-6 text-cyan-100">Select Voter Card</h3>
-                
-                <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-2 sm:gap-3 mb-4">
-                  {cardsToShow.map((id) => {
-                    const profile = userProfiles[id];
-                    return (
-                      <button
-                        key={id}
-                        onClick={() => handleUserChange(id)}
-                        className={cn(
-                          "p-2 sm:p-3 rounded-md flex flex-col items-center transition-all duration-300 text-xs sm:text-sm border",
-                          selectedUser === id 
-                            ? "bg-gradient-to-r from-cyan-900/80 to-blue-900/80 text-white border-cyan-500/50 shadow-[0_0_15px_rgba(34,211,238,0.25)]" 
-                            : "bg-gray-800/50 hover:bg-gray-800 text-gray-300 border-gray-700",
-                          profile.is_fake && "border-red-500/50 text-red-300"
-                        )}
-                      >
-                        <User className="h-4 w-4 sm:h-5 sm:w-5 mb-1 flex-shrink-0" />
-                        <span className="truncate text-center leading-tight">{profile.name}</span>
-                        <span className="text-xs opacity-70">{profile.voter_id}</span>
-                        {profile.is_fake && <AlertTriangle className="h-3 w-3 mt-1 text-red-400" />}
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {additionalCards.length > 0 && (
-                  <div className="text-center mb-4">
-                    <Button
-                      onClick={() => setShowMoreCards(!showMoreCards)}
-                      variant="outline"
-                      size="sm"
-                      className="bg-gray-800/50 border-gray-700 text-gray-300 hover:bg-gray-700 hover:text-white"
-                    >
-                      {showMoreCards ? 'Show Less Cards' : `Show ${additionalCards.length} More Cards`}
-                      <ChevronDown className={cn("h-4 w-4 ml-2 transition-transform", showMoreCards && "rotate-180")} />
-                    </Button>
-                  </div>
-                )}
-                
-                {/* Card and Service details display in grid */}
+              </CardHeader>
+              <CardContent>
                 <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6">
-                  {/* NFC Card - 2 columns */}
-                  <div className="lg:col-span-2 flex flex-col items-center justify-center">
-                    {selectedUser && (
-                      <>
-                        <div className="relative mb-4">
+                  {/* Card Selection Section - 2 columns */}
+                  <div className="lg:col-span-2 space-y-4">
+                    <div className="space-y-2">
+                      <Label className="flex items-center text-sm sm:text-base font-medium">
+                        <UserRound className="h-4 w-4 mr-2 flex-shrink-0" />
+                        Select Voter Card
+                      </Label>
+                      <div className="grid grid-cols-2 gap-2 max-h-80 overflow-y-auto bg-slate-50 p-3 rounded-lg border">
+                        {cardsToShow.map((id) => {
+                          const profile = userProfiles[id];
+                          return (
+                            <button
+                              key={id}
+                              onClick={() => handleUserChange(id)}
+                              className={cn(
+                                "p-2 sm:p-3 rounded-md flex flex-col items-center transition-all duration-300 text-xs border-2",
+                                selectedUser === id 
+                                  ? "bg-voting-primary text-white border-voting-primary shadow-lg transform scale-105" 
+                                  : "bg-white hover:bg-slate-100 text-gray-700 border-gray-200",
+                                profile.is_fake && "border-red-500/50 text-red-600"
+                              )}
+                            >
+                              <User className="h-4 w-4 mb-1 flex-shrink-0" />
+                              <span className="truncate text-center leading-tight font-medium">{profile.name}</span>
+                              <span className="text-xs opacity-70">{profile.voter_id}</span>
+                              {profile.is_fake && <AlertTriangle className="h-3 w-3 mt-1 text-red-500" />}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {additionalCards.length > 0 && (
+                        <div className="text-center">
+                          <Button
+                            onClick={() => setShowMoreCards(!showMoreCards)}
+                            variant="outline"
+                            size="sm"
+                            className="w-full"
+                          >
+                            {showMoreCards ? 'Show Less Cards' : `Show ${additionalCards.length} More Cards`}
+                            <ChevronDown className={cn("h-4 w-4 ml-2 transition-transform", showMoreCards && "rotate-180")} />
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* NFC Card Display */}
+                    <div className="flex flex-col items-center justify-center py-4">
+                      {selectedUser && (
+                        <>
                           <NFCCard 
                             isCardWritten={true}
                             voterData={userProfiles[selectedUser].card}
-                            className="shadow-[0_0_25px_rgba(34,211,238,0.3)] scale-90 sm:scale-100"
+                            className="shadow-lg transform transition-all duration-300 hover:scale-105"
                             isFake={userProfiles[selectedUser].is_fake}
                           />
-                          <div className="absolute -top-3 -right-3 w-6 h-6 sm:w-8 sm:h-8 bg-cyan-500 rounded-full flex items-center justify-center shadow-lg text-xs font-bold">
-                            NFC
+                          <div className="text-xs text-voting-primary flex items-center mt-3">
+                            <div className="animate-ping w-2 h-2 bg-voting-primary rounded-full mr-2"></div>
+                            NFC Card Selected
                           </div>
-                        </div>
-                        <div className="text-xs text-cyan-500 flex items-center">
-                          <div className="animate-ping w-2 h-2 bg-cyan-400 rounded-full mr-2"></div>
-                          NFC Card Active
-                        </div>
-                      </>
-                    )}
+                        </>
+                      )}
+                    </div>
                   </div>
                   
-                  {/* Service details panel - 3 columns */}
-                  <div className="lg:col-span-3 min-h-[200px] sm:min-h-[300px]">
-                    {showServiceDetails === 'blocked' && (
-                      <div className="bg-red-900/20 border border-red-700 rounded-lg p-4 sm:p-5 h-full animate-fade-in flex flex-col items-center justify-center">
-                        <AlertTriangle className="h-12 w-12 text-red-400 mb-4" />
-                        <h4 className="text-xl font-bold text-red-400 mb-2">FAKE CARD DETECTED</h4>
-                        <p className="text-red-300 text-center">Access to government services blocked due to invalid card.</p>
+                  {/* Services and Details Section - 3 columns */}
+                  <div className="lg:col-span-3 space-y-4">
+                    {/* Service Selection */}
+                    <div className="space-y-2">
+                      <Label className="flex items-center text-sm sm:text-base font-medium">
+                        <Building2 className="h-4 w-4 mr-2 flex-shrink-0" />
+                        Available Services
+                      </Label>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <Button
+                          onClick={() => handleServiceClick('ration')}
+                          variant={showServiceDetails === 'ration' ? "default" : "outline"}
+                          className={cn(
+                            "h-auto p-4 flex flex-col items-center transition-all duration-200",
+                            showServiceDetails === 'ration' && "bg-voting-primary hover:bg-voting-secondary"
+                          )}
+                        >
+                          <Package className="h-5 w-5 mb-2" />
+                          <span className="text-sm font-medium">Ration Center</span>
+                          <span className="text-xs opacity-70">PDS Services</span>
+                        </Button>
+                        
+                        <Button
+                          onClick={() => handleServiceClick('medical')}
+                          variant={showServiceDetails === 'medical' ? "default" : "outline"}
+                          className={cn(
+                            "h-auto p-4 flex flex-col items-center transition-all duration-200",
+                            showServiceDetails === 'medical' && "bg-voting-primary hover:bg-voting-secondary"
+                          )}
+                        >
+                          <Hospital className="h-5 w-5 mb-2" />
+                          <span className="text-sm font-medium">Health Center</span>
+                          <span className="text-xs opacity-70">Medical Services</span>
+                        </Button>
+                        
+                        <Button
+                          onClick={() => handleServiceClick('pension')}
+                          variant={showServiceDetails === 'pension' ? "default" : "outline"}
+                          className={cn(
+                            "h-auto p-4 flex flex-col items-center transition-all duration-200",
+                            showServiceDetails === 'pension' && "bg-voting-primary hover:bg-voting-secondary",
+                            (!currentUser || !currentUser.pension) && "opacity-50"
+                          )}
+                        >
+                          <CreditCard className="h-5 w-5 mb-2" />
+                          <span className="text-sm font-medium">Pension Center</span>
+                          <span className="text-xs opacity-70">
+                            {currentUser?.pension ? "Available" : "Not Eligible"}
+                          </span>
+                        </Button>
                       </div>
-                    )}
+                    </div>
 
-                    {showServiceDetails && showServiceDetails !== 'blocked' && selectedUser && currentUser && !currentUser.is_fake && (
-                      <div className="bg-[#0a1926] border border-gray-800 rounded-lg p-4 sm:p-5 h-full animate-fade-in">
-                        <div className="flex items-center text-cyan-400 mb-4">
-                          {showServiceDetails === 'pension' && (
-                            <>
-                              <CreditCard className="h-5 w-5 mr-2" />
-                              <h4 className="text-lg font-semibold">Pension Account Details</h4>
-                            </>
-                          )}
-                          {showServiceDetails === 'ration' && (
-                            <>
-                              <Package className="h-5 w-5 mr-2" />
-                              <h4 className="text-lg font-semibold">Ration Card Details</h4>
-                            </>
-                          )}
-                          {showServiceDetails === 'medical' && (
-                            <>
-                              <Hospital className="h-5 w-5 mr-2" />
-                              <h4 className="text-lg font-semibold">Medical Coverage Details</h4>
-                            </>
-                          )}
+                    {/* Service Details Panel */}
+                    <div className="min-h-[300px] border-2 border-gray-200 rounded-lg p-4 bg-gradient-to-br from-white to-slate-50">
+                      {showServiceDetails === 'blocked' && (
+                        <div className="flex flex-col items-center justify-center h-full text-center animate-fade-in">
+                          <AlertTriangle className="h-16 w-16 text-red-500 mb-4" />
+                          <h4 className="text-xl font-bold text-red-600 mb-2">FAKE CARD DETECTED</h4>
+                          <p className="text-red-500">Access to government services blocked due to invalid card.</p>
                         </div>
-                        
-                        <div className="mb-4 pb-4 border-b border-gray-700">
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-                            <div className="flex justify-between sm:block">
-                              <span className="text-gray-400">Name:</span>
-                              <span className="font-medium text-white">{currentUser.name}</span>
+                      )}
+
+                      {showServiceDetails && showServiceDetails !== 'blocked' && selectedUser && currentUser && !currentUser.is_fake && (
+                        <div className="animate-fade-in">
+                          <div className="flex items-center text-voting-primary mb-4 pb-2 border-b">
+                            {showServiceDetails === 'pension' && (
+                              <>
+                                <CreditCard className="h-5 w-5 mr-2" />
+                                <h4 className="text-lg font-semibold">Pension Account Details</h4>
+                              </>
+                            )}
+                            {showServiceDetails === 'ration' && (
+                              <>
+                                <Package className="h-5 w-5 mr-2" />
+                                <h4 className="text-lg font-semibold">Ration Card Details</h4>
+                              </>
+                            )}
+                            {showServiceDetails === 'medical' && (
+                              <>
+                                <Hospital className="h-5 w-5 mr-2" />
+                                <h4 className="text-lg font-semibold">Medical Coverage Details</h4>
+                              </>
+                            )}
+                          </div>
+                          
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                            <div className="space-y-1">
+                              <span className="text-sm text-gray-500">Name</span>
+                              <p className="font-medium">{currentUser.name}</p>
                             </div>
-                            <div className="flex justify-between sm:block">
-                              <span className="text-gray-400">Age:</span>
-                              <span className="font-medium text-white">{currentUser.age}</span>
+                            <div className="space-y-1">
+                              <span className="text-sm text-gray-500">Age</span>
+                              <p className="font-medium">{currentUser.age}</p>
                             </div>
-                            <div className="flex justify-between sm:block sm:col-span-2">
-                              <span className="text-gray-400">Voter ID:</span>
-                              <span className="font-medium text-white">{currentUser.voter_id}</span>
+                            <div className="space-y-1 sm:col-span-2">
+                              <span className="text-sm text-gray-500">Voter ID</span>
+                              <p className="font-medium">{currentUser.voter_id}</p>
+                            </div>
+                          </div>
+                          
+                          <Separator className="my-4" />
+                          
+                          {/* Service-specific details */}
+                          <div className="space-y-3">
+                            {showServiceDetails === 'pension' && currentUser.pension && (
+                              <>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                                  <div className="space-y-1">
+                                    <span className="text-gray-500">Account ID</span>
+                                    <p className="font-medium">{currentUser.pension.account_id}</p>
+                                  </div>
+                                  <div className="space-y-1">
+                                    <span className="text-gray-500">Monthly Amount</span>
+                                    <p className="font-medium text-green-600">{currentUser.pension.monthly_amount}</p>
+                                  </div>
+                                  <div className="space-y-1">
+                                    <span className="text-gray-500">Last Payout</span>
+                                    <p className="font-medium">{currentUser.pension.last_payout}</p>
+                                  </div>
+                                  <div className="space-y-1">
+                                    <span className="text-gray-500">Years of Service</span>
+                                    <p className="font-medium">{currentUser.pension.years_of_service}</p>
+                                  </div>
+                                </div>
+                              </>
+                            )}
+                            
+                            {showServiceDetails === 'ration' && (
+                              <>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                                  <div className="space-y-1">
+                                    <span className="text-gray-500">Card Number</span>
+                                    <p className="font-medium">{currentUser.ration.card_number}</p>
+                                  </div>
+                                  <div className="space-y-1">
+                                    <span className="text-gray-500">Category</span>
+                                    <p className="font-medium text-blue-600">{currentUser.ration.category}</p>
+                                  </div>
+                                  <div className="space-y-1">
+                                    <span className="text-gray-500">Family Members</span>
+                                    <p className="font-medium">{currentUser.ration.family_members}</p>
+                                  </div>
+                                  <div className="space-y-1">
+                                    <span className="text-gray-500">Last Collection</span>
+                                    <p className="font-medium">{currentUser.ration.last_collection}</p>
+                                  </div>
+                                  <div className="space-y-1 sm:col-span-2">
+                                    <span className="text-gray-500">Monthly Allocation</span>
+                                    <p className="font-medium">{currentUser.ration.monthly_allocation}</p>
+                                  </div>
+                                </div>
+                              </>
+                            )}
+                            
+                            {showServiceDetails === 'medical' && (
+                              <>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                                  <div className="space-y-1">
+                                    <span className="text-gray-500">Medical ID</span>
+                                    <p className="font-medium">{currentUser.medical.id}</p>
+                                  </div>
+                                  <div className="space-y-1">
+                                    <span className="text-gray-500">Coverage Type</span>
+                                    <p className="font-medium text-blue-600">{currentUser.medical.coverage}</p>
+                                  </div>
+                                  <div className="space-y-1">
+                                    <span className="text-gray-500">Last Checkup</span>
+                                    <p className="font-medium">{currentUser.medical.last_checkup}</p>
+                                  </div>
+                                  <div className="space-y-1">
+                                    <span className="text-gray-500">Next Appointment</span>
+                                    <p className="font-medium">{currentUser.medical.upcoming_appointment}</p>
+                                  </div>
+                                  <div className="space-y-1">
+                                    <span className="text-gray-500">Doctor</span>
+                                    <p className="font-medium">{currentUser.medical.doctor}</p>
+                                  </div>
+                                  {currentUser.medical.prescriptions && (
+                                    <div className="space-y-1">
+                                      <span className="text-gray-500">Prescriptions</span>
+                                      <p className="font-medium">{currentUser.medical.prescriptions}</p>
+                                    </div>
+                                  )}
+                                </div>
+                              </>
+                            )}
+                          </div>
+                          
+                          <div className="mt-6 flex items-center justify-center">
+                            <div className="flex items-center text-green-600 bg-green-50 px-3 py-2 rounded-full">
+                              <ShieldCheck className="w-4 h-4 mr-2" />
+                              <span className="text-sm font-medium">Verified by Ncrypt System</span>
                             </div>
                           </div>
                         </div>
-                        
-                        {/* Service-specific details */}
-                        <div className="space-y-3 text-sm">
-                          {showServiceDetails === 'pension' && currentUser.pension && (
-                            <>
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">Pension Account ID:</span>
-                                <span className="font-medium text-white">{currentUser.pension.account_id}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">Monthly Pension:</span>
-                                <span className="font-medium text-cyan-400">{currentUser.pension.monthly_amount}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">Last Payout:</span>
-                                <span className="font-medium text-white">{currentUser.pension.last_payout}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">Years of Service:</span>
-                                <span className="font-medium text-white">{currentUser.pension.years_of_service}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">Retirement Date:</span>
-                                <span className="font-medium text-white">{currentUser.pension.retirement_date}</span>
-                              </div>
-                            </>
-                          )}
-                          
-                          {showServiceDetails === 'ration' && (
-                            <>
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">Ration Card Number:</span>
-                                <span className="font-medium text-white">{currentUser.ration.card_number}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">Category:</span>
-                                <span className="font-medium text-cyan-400">{currentUser.ration.category}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">Family Members:</span>
-                                <span className="font-medium text-white">{currentUser.ration.family_members}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">Monthly Allocation:</span>
-                                <span className="font-medium text-white">{currentUser.ration.monthly_allocation}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">Last Collection:</span>
-                                <span className="font-medium text-white">{currentUser.ration.last_collection}</span>
-                              </div>
-                            </>
-                          )}
-                          
-                          {showServiceDetails === 'medical' && (
-                            <>
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">Medical ID:</span>
-                                <span className="font-medium text-white">{currentUser.medical.id}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">Coverage Type:</span>
-                                <span className="font-medium text-cyan-400">{currentUser.medical.coverage}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">Last Checkup:</span>
-                                <span className="font-medium text-white">{currentUser.medical.last_checkup}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">Upcoming Appointment:</span>
-                                <span className="font-medium text-white">{currentUser.medical.upcoming_appointment}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">Assigned Doctor:</span>
-                                <span className="font-medium text-white">{currentUser.medical.doctor}</span>
-                              </div>
-                              {currentUser.medical.prescriptions && (
-                                <div className="flex justify-between">
-                                  <span className="text-gray-400">Prescriptions:</span>
-                                  <span className="font-medium text-white">{currentUser.medical.prescriptions}</span>
-                                </div>
-                              )}
-                            </>
-                          )}
+                      )}
+                      
+                      {!showServiceDetails && (
+                        <div className="flex items-center justify-center h-full">
+                          <div className="text-center text-gray-400">
+                            <Building2 className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                            <p className="text-sm">Select a government service to view details</p>
+                            <p className="text-xs mt-1">Choose a card first, then select a service</p>
+                          </div>
                         </div>
-                        
-                        <div className="mt-6 pt-4 border-t border-gray-700 flex items-center">
-                          <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                          <span className="text-xs text-green-400">Verified by Ncrypt System</span>
-                        </div>
-                      </div>
-                    )}
-                    
-                    {!showServiceDetails && (
-                      <div className="flex items-center justify-center h-full">
-                        <div className="text-center text-gray-400 bg-[#0a1926]/50 p-4 sm:p-6 rounded-lg border border-gray-800 border-dashed">
-                          <FileInput className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 text-gray-500" />
-                          <p className="text-sm">Select a government service to view details</p>
-                        </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-              
-              {/* Services grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mt-6 sm:mt-8">
-                <button
-                  onClick={() => handleServiceClick('ration')}
-                  className={cn(
-                    "bg-[#0a1926] hover:bg-[#0d1e2d] border border-gray-800 rounded-lg p-4 sm:p-6 text-center transition-all duration-300",
-                    showServiceDetails === 'ration' && "ring-2 ring-cyan-500 shadow-[0_0_15px_rgba(34,211,238,0.3)]"
-                  )}
-                >
-                  <div className="h-10 w-10 sm:h-12 sm:w-12 bg-gray-800/80 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                    <Package className="h-5 w-5 sm:h-6 sm:w-6 text-cyan-400" />
-                  </div>
-                  <h4 className="text-base sm:text-lg font-medium mb-1">Ration Center</h4>
-                  <p className="text-xs sm:text-sm text-gray-400">Public Distribution System</p>
-                  
-                  <div className="mt-3 sm:mt-4 w-full bg-gray-800 rounded-full h-1.5">
-                    <div className="bg-gradient-to-r from-cyan-500 to-blue-500 h-1.5 rounded-full" style={{ width: '35%' }}></div>
-                  </div>
-                  <p className="text-xs text-right mt-1 text-gray-500">35% collected this month</p>
-                </button>
-                
-                <button
-                  onClick={() => handleServiceClick('medical')}
-                  className={cn(
-                    "bg-[#0a1926] hover:bg-[#0d1e2d] border border-gray-800 rounded-lg p-4 sm:p-6 text-center transition-all duration-300",
-                    showServiceDetails === 'medical' && "ring-2 ring-cyan-500 shadow-[0_0_15px_rgba(34,211,238,0.3)]"
-                  )}
-                >
-                  <div className="h-10 w-10 sm:h-12 sm:w-12 bg-gray-800/80 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                    <Hospital className="h-5 w-5 sm:h-6 sm:w-6 text-cyan-400" />
-                  </div>
-                  <h4 className="text-base sm:text-lg font-medium mb-1">Health Hospital</h4>
-                  <p className="text-xs sm:text-sm text-gray-400">Government Medical Services</p>
-                  
-                  {selectedUser && currentUser && !currentUser.is_fake && (
-                    <div className="mt-3 bg-cyan-950/30 py-1 px-2 rounded text-xs inline-flex items-center">
-                      <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full mr-1"></span>
-                      Next: {currentUser.medical.upcoming_appointment}
-                    </div>
-                  )}
-                </button>
-                
-                <button
-                  onClick={() => handleServiceClick('pension')}
-                  className={cn(
-                    "bg-[#0a1926] hover:bg-[#0d1e2d] border border-gray-800 rounded-lg p-4 sm:p-6 text-center transition-all duration-300 sm:col-span-2 lg:col-span-1",
-                    showServiceDetails === 'pension' && "ring-2 ring-cyan-500 shadow-[0_0_15px_rgba(34,211,238,0.3)]",
-                    (!currentUser || !currentUser.pension) && "opacity-50"
-                  )}
-                >
-                  <div className="h-10 w-10 sm:h-12 sm:w-12 bg-gray-800/80 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                    <CreditCard className="h-5 w-5 sm:h-6 sm:w-6 text-cyan-400" />
-                  </div>
-                  <h4 className="text-base sm:text-lg font-medium mb-1">Pension Centre</h4>
-                  <p className="text-xs sm:text-sm text-gray-400">Government Pension Scheme</p>
-                  
-                  {selectedUser && currentUser && !currentUser.is_fake && currentUser.pension ? (
-                    <div className="mt-3 text-xs text-cyan-400 font-medium">
-                      {currentUser.pension.monthly_amount}/month
-                    </div>
-                  ) : (
-                    <div className="mt-3 text-xs text-gray-500">
-                      Not eligible
-                    </div>
-                  )}
-                </button>
-              </div>
-              
-              {/* Call to action button */}
-              <div className="flex justify-center mt-6 sm:mt-8">
-                <Button
-                  onClick={() => setActiveSection('voting')}
-                  className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white py-2 px-4 sm:py-2 sm:px-6 rounded-full flex items-center text-sm sm:text-base"
-                >
-                  <ScanLine className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                  Explore Voting Verification
-                </Button>
-              </div>
-              
-              {/* NFC activated notification */}
-              <div className="absolute right-4 sm:right-8 bottom-4 sm:bottom-8 max-w-xs bg-[#0a1926] border border-cyan-900/50 rounded-lg p-3 sm:p-4 shadow-lg hidden lg:block animate-fade-in">
-                <div className="flex items-center">
-                  <div className="mr-3 h-6 w-6 sm:h-8 sm:w-8 bg-cyan-900/50 rounded-full flex items-center justify-center">
-                    <CreditCard className="h-3 w-3 sm:h-4 sm:w-4 text-cyan-400" />
-                  </div>
-                  <div>
-                    <div className="text-xs sm:text-sm font-medium mb-1 text-cyan-100">NFC Card Activated</div>
-                    <div className="text-xs text-gray-400">Select card to access services.</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           </div>
         )}
       </main>
