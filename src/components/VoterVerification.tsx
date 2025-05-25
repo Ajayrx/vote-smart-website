@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { encrypt_data, decrypt_data } from "@/utils/encryption";
 import NFCCard from "./NFCCard";
+import VoterDataSelector from "./VoterDataSelector";
 import { 
   UserRound, 
   FileInput, 
@@ -32,6 +33,13 @@ import { useToast } from "@/components/ui/use-toast";
 // Expected Government Signature
 const EXPECTED_GOV_SIGNATURE = "gov_secure_2025";
 
+interface VoterProfile {
+  voter_id: string;
+  name: string;
+  age: string;
+  fingerprint_hash: string;
+}
+
 const VoterVerification: React.FC = () => {
   const { toast } = useToast();
   const [voterData, setVoterData] = useState({
@@ -41,6 +49,7 @@ const VoterVerification: React.FC = () => {
     fingerprint_hash: "",
     gov_signature: EXPECTED_GOV_SIGNATURE
   });
+  const [selectedVoter, setSelectedVoter] = useState<VoterProfile | null>(null);
   const [govSignature, setGovSignature] = useState("");
   const [encryptedCard, setEncryptedCard] = useState<string | null>(null);
   const [scannedData, setScannedData] = useState<any>(null);
@@ -52,6 +61,23 @@ const VoterVerification: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setVoterData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleVoterSelection = (voter: VoterProfile) => {
+    setSelectedVoter(voter);
+    setVoterData({
+      voter_id: voter.voter_id,
+      name: voter.name,
+      age: voter.age,
+      fingerprint_hash: voter.fingerprint_hash,
+      gov_signature: EXPECTED_GOV_SIGNATURE
+    });
+    // Reset states when new voter is selected
+    setEncryptedCard(null);
+    setIsCardWritten(false);
+    setIsCardScanned(false);
+    setScannedData(null);
+    setIsFakeCard(false);
   };
 
   const writeCard = () => {
@@ -107,6 +133,11 @@ const VoterVerification: React.FC = () => {
 
   return (
     <div className="w-full max-w-4xl mx-auto">
+      <VoterDataSelector 
+        onSelectVoter={handleVoterSelection}
+        selectedVoter={selectedVoter}
+      />
+      
       <Tabs defaultValue="write" className="w-full">
         <TabsList className="grid grid-cols-2 mb-8">
           <TabsTrigger value="write" className="text-base py-3">
