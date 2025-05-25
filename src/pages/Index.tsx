@@ -1,4 +1,5 @@
 
+
 import { useState } from "react";
 import VoterVerification from "@/components/VoterVerification";
 import { Button } from "@/components/ui/button";
@@ -492,340 +493,355 @@ const Index = () => {
       </div>
       
       {/* Main content */}
-      <main className="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
+      <main className="container mx-auto px-2 sm:px-4 py-4 sm:py-6">
         {activeSection === 'voting' && (
-          <>
-            <div className="max-w-4xl mx-auto bg-white p-4 sm:p-6 rounded-xl shadow-lg">
-              <h2 className="text-xl sm:text-2xl font-bold text-voting-primary mb-4 sm:mb-6 text-center">
-                NFC Voter Verification System
-              </h2>
-              <p className="text-gray-600 mb-6 sm:mb-8 text-center max-w-3xl mx-auto text-sm sm:text-base">
-                This system demonstrates the secure creation and verification of NFC-based voter ID cards using encryption and digital signatures.
-              </p>
-              
-              <VoterVerification />
+          <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+            {/* Left Panel - Main Content */}
+            <div className="flex-1">
+              <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
+                <h2 className="text-xl sm:text-2xl font-bold text-voting-primary mb-4 sm:mb-6 text-center">
+                  NFC Voter Verification System
+                </h2>
+                <p className="text-gray-600 mb-6 text-center max-w-3xl mx-auto text-sm sm:text-base">
+                  This system demonstrates the secure creation and verification of NFC-based voter ID cards using encryption and digital signatures.
+                </p>
+                
+                <VoterVerification />
+              </div>
             </div>
             
-            <div className="mt-8 sm:mt-12 max-w-3xl mx-auto text-center">
-              <h3 className="text-lg sm:text-xl font-semibold text-voting-primary mb-4">How It Works</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-                <div className="bg-white p-4 sm:p-5 rounded-lg shadow-md">
-                  <div className="h-10 w-10 sm:h-12 sm:w-12 bg-voting-accent rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                    <FileInput className="h-5 w-5 sm:h-6 sm:w-6 text-voting-primary" />
+            {/* Right Panel - How It Works */}
+            <div className="lg:w-96">
+              <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
+                <h3 className="text-lg sm:text-xl font-semibold text-voting-primary mb-4 text-center">How It Works</h3>
+                <div className="space-y-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="h-8 w-8 bg-voting-accent rounded-full flex items-center justify-center flex-shrink-0">
+                      <FileInput className="h-4 w-4 text-voting-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-1 text-sm">1. Create Voter Card</h4>
+                      <p className="text-xs text-gray-600">Enter voter details and encrypt them to create a secure digital NFC card.</p>
+                    </div>
                   </div>
-                  <h4 className="font-semibold mb-2 text-sm sm:text-base">1. Create Voter Card</h4>
-                  <p className="text-xs sm:text-sm text-gray-600">Enter voter details and encrypt them to create a secure digital NFC card.</p>
-                </div>
-                <div className="bg-white p-4 sm:p-5 rounded-lg shadow-md">
-                  <div className="h-10 w-10 sm:h-12 sm:w-12 bg-voting-accent rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                    <ScanLine className="h-5 w-5 sm:h-6 sm:w-6 text-voting-primary" />
+                  <div className="flex items-start space-x-3">
+                    <div className="h-8 w-8 bg-voting-accent rounded-full flex items-center justify-center flex-shrink-0">
+                      <ScanLine className="h-4 w-4 text-voting-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-1 text-sm">2. Scan Card</h4>
+                      <p className="text-xs text-gray-600">Scan the NFC card and verify the government signature for authenticity.</p>
+                    </div>
                   </div>
-                  <h4 className="font-semibold mb-2 text-sm sm:text-base">2. Scan Card</h4>
-                  <p className="text-xs sm:text-sm text-gray-600">Scan the NFC card and verify the government signature for authenticity.</p>
-                </div>
-                <div className="bg-white p-4 sm:p-5 rounded-lg shadow-md">
-                  <div className="h-10 w-10 sm:h-12 sm:w-12 bg-voting-accent rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                    <ShieldCheck className="h-5 w-5 sm:h-6 sm:w-6 text-voting-primary" />
+                  <div className="flex items-start space-x-3">
+                    <div className="h-8 w-8 bg-voting-accent rounded-full flex items-center justify-center flex-shrink-0">
+                      <ShieldCheck className="h-4 w-4 text-voting-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-1 text-sm">3. Verify Identity</h4>
+                      <p className="text-xs text-gray-600">System verifies the card's authenticity and displays the voter's information.</p>
+                    </div>
                   </div>
-                  <h4 className="font-semibold mb-2 text-sm sm:text-base">3. Verify Identity</h4>
-                  <p className="text-xs sm:text-sm text-gray-600">System verifies the card's authenticity and displays the voter's information.</p>
                 </div>
               </div>
             </div>
-          </>
+          </div>
         )}
         
         {activeSection === 'services' && (
-          <div className="w-full max-w-6xl mx-auto">
-            <Card className="shadow-xl border-0 bg-gradient-to-br from-white to-slate-50">
-              <CardHeader className="pb-4 sm:pb-6">
-                <CardTitle className="flex items-center text-voting-primary text-xl sm:text-2xl">
-                  <Building2 className="mr-2 h-5 w-5 sm:h-6 sm:w-6 flex-shrink-0" />
-                  <span>Government Services Portal</span>
-                </CardTitle>
-                <p className="text-gray-600 text-sm sm:text-base">
-                  Access government services using your verified voter ID card
-                </p>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6">
-                  {/* Card Selection Section - 2 columns */}
-                  <div className="lg:col-span-2 space-y-4">
-                    <div className="space-y-2">
-                      <Label className="flex items-center text-sm sm:text-base font-medium">
-                        <UserRound className="h-4 w-4 mr-2 flex-shrink-0" />
-                        Select Voter Card
-                      </Label>
-                      <div className="grid grid-cols-2 gap-2 max-h-80 overflow-y-auto bg-slate-50 p-3 rounded-lg border">
-                        {cardsToShow.map((id) => {
-                          const profile = userProfiles[id];
-                          return (
-                            <button
-                              key={id}
-                              onClick={() => handleUserChange(id)}
-                              className={cn(
-                                "p-2 sm:p-3 rounded-md flex flex-col items-center transition-all duration-300 text-xs border-2",
-                                selectedUser === id 
-                                  ? "bg-voting-primary text-white border-voting-primary shadow-lg transform scale-105" 
-                                  : "bg-white hover:bg-slate-100 text-gray-700 border-gray-200",
-                                profile.is_fake && "border-red-500/50 text-red-600"
-                              )}
-                            >
-                              <User className="h-4 w-4 mb-1 flex-shrink-0" />
-                              <span className="truncate text-center leading-tight font-medium">{profile.name}</span>
-                              <span className="text-xs opacity-70">{profile.voter_id}</span>
-                              {profile.is_fake && <AlertTriangle className="h-3 w-3 mt-1 text-red-500" />}
-                            </button>
-                          );
-                        })}
-                      </div>
+          <div className="max-w-7xl mx-auto">
+            {/* Header */}
+            <div className="text-center mb-6">
+              <h2 className="text-2xl sm:text-3xl font-bold text-voting-primary mb-2 flex items-center justify-center">
+                <Building2 className="mr-3 h-6 w-6" />
+                Government Services Portal
+              </h2>
+              <p className="text-gray-600 text-sm sm:text-base max-w-2xl mx-auto">
+                Access government services using your verified voter ID card. Select a card and choose a service to get started.
+              </p>
+            </div>
 
-                      {additionalCards.length > 0 && (
-                        <div className="text-center">
-                          <Button
-                            onClick={() => setShowMoreCards(!showMoreCards)}
-                            variant="outline"
-                            size="sm"
-                            className="w-full"
+            {/* Main Content - Horizontal Layout */}
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8">
+              
+              {/* Left Section - Card Selection (1/3 width on xl screens) */}
+              <div className="xl:col-span-1">
+                <Card className="h-fit sticky top-24">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="flex items-center text-lg">
+                      <UserRound className="h-5 w-5 mr-2" />
+                      Select Voter Card
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-2 max-h-96 overflow-y-auto bg-slate-50 p-3 rounded-lg border">
+                      {cardsToShow.map((id) => {
+                        const profile = userProfiles[id];
+                        return (
+                          <button
+                            key={id}
+                            onClick={() => handleUserChange(id)}
+                            className={cn(
+                              "p-2 sm:p-3 rounded-md flex flex-col items-center transition-all duration-300 text-xs border-2",
+                              selectedUser === id 
+                                ? "bg-voting-primary text-white border-voting-primary shadow-lg transform scale-105" 
+                                : "bg-white hover:bg-slate-100 text-gray-700 border-gray-200 hover:border-voting-primary/30",
+                              profile.is_fake && "border-red-500/50 text-red-600"
+                            )}
                           >
-                            {showMoreCards ? 'Show Less Cards' : `Show ${additionalCards.length} More Cards`}
-                            <ChevronDown className={cn("h-4 w-4 ml-2 transition-transform", showMoreCards && "rotate-180")} />
-                          </Button>
-                        </div>
-                      )}
+                            <User className="h-4 w-4 mb-1 flex-shrink-0" />
+                            <span className="truncate text-center leading-tight font-medium">{profile.name}</span>
+                            <span className="text-xs opacity-70">{profile.voter_id}</span>
+                            {profile.is_fake && <AlertTriangle className="h-3 w-3 mt-1 text-red-500" />}
+                          </button>
+                        );
+                      })}
                     </div>
+
+                    {additionalCards.length > 0 && (
+                      <div className="mt-3">
+                        <Button
+                          onClick={() => setShowMoreCards(!showMoreCards)}
+                          variant="outline"
+                          size="sm"
+                          className="w-full"
+                        >
+                          {showMoreCards ? 'Show Less Cards' : `Show ${additionalCards.length} More Cards`}
+                          <ChevronDown className={cn("h-4 w-4 ml-2 transition-transform", showMoreCards && "rotate-180")} />
+                        </Button>
+                      </div>
+                    )}
 
                     {/* NFC Card Display */}
-                    <div className="flex flex-col items-center justify-center py-4">
-                      {selectedUser && (
-                        <>
-                          <NFCCard 
-                            isCardWritten={true}
-                            voterData={userProfiles[selectedUser].card}
-                            className="shadow-lg transform transition-all duration-300 hover:scale-105"
-                            isFake={userProfiles[selectedUser].is_fake}
-                          />
-                          <div className="text-xs text-voting-primary flex items-center mt-3">
-                            <div className="animate-ping w-2 h-2 bg-voting-primary rounded-full mr-2"></div>
-                            NFC Card Selected
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                  
-                  {/* Services and Details Section - 3 columns */}
-                  <div className="lg:col-span-3 space-y-4">
-                    {/* Service Selection */}
-                    <div className="space-y-2">
-                      <Label className="flex items-center text-sm sm:text-base font-medium">
-                        <Building2 className="h-4 w-4 mr-2 flex-shrink-0" />
-                        Available Services
-                      </Label>
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <Button
-                          onClick={() => handleServiceClick('ration')}
-                          variant={showServiceDetails === 'ration' ? "default" : "outline"}
-                          className={cn(
-                            "h-auto p-4 flex flex-col items-center transition-all duration-200",
-                            showServiceDetails === 'ration' && "bg-voting-primary hover:bg-voting-secondary"
-                          )}
-                        >
-                          <Package className="h-5 w-5 mb-2" />
-                          <span className="text-sm font-medium">Ration Center</span>
-                          <span className="text-xs opacity-70">PDS Services</span>
-                        </Button>
-                        
-                        <Button
-                          onClick={() => handleServiceClick('medical')}
-                          variant={showServiceDetails === 'medical' ? "default" : "outline"}
-                          className={cn(
-                            "h-auto p-4 flex flex-col items-center transition-all duration-200",
-                            showServiceDetails === 'medical' && "bg-voting-primary hover:bg-voting-secondary"
-                          )}
-                        >
-                          <Hospital className="h-5 w-5 mb-2" />
-                          <span className="text-sm font-medium">Health Center</span>
-                          <span className="text-xs opacity-70">Medical Services</span>
-                        </Button>
-                        
-                        <Button
-                          onClick={() => handleServiceClick('pension')}
-                          variant={showServiceDetails === 'pension' ? "default" : "outline"}
-                          className={cn(
-                            "h-auto p-4 flex flex-col items-center transition-all duration-200",
-                            showServiceDetails === 'pension' && "bg-voting-primary hover:bg-voting-secondary",
-                            (!currentUser || !currentUser.pension) && "opacity-50"
-                          )}
-                        >
-                          <CreditCard className="h-5 w-5 mb-2" />
-                          <span className="text-sm font-medium">Pension Center</span>
-                          <span className="text-xs opacity-70">
-                            {currentUser?.pension ? "Available" : "Not Eligible"}
-                          </span>
-                        </Button>
+                    {selectedUser && (
+                      <div className="flex flex-col items-center justify-center py-4 mt-4 border-t">
+                        <NFCCard 
+                          isCardWritten={true}
+                          voterData={userProfiles[selectedUser].card}
+                          className="shadow-lg transform transition-all duration-300 hover:scale-105"
+                          isFake={userProfiles[selectedUser].is_fake}
+                        />
+                        <div className="text-xs text-voting-primary flex items-center mt-3">
+                          <div className="animate-ping w-2 h-2 bg-voting-primary rounded-full mr-2"></div>
+                          NFC Card Selected
+                        </div>
                       </div>
-                    </div>
-
-                    {/* Service Details Panel */}
-                    <div className="min-h-[300px] border-2 border-gray-200 rounded-lg p-4 bg-gradient-to-br from-white to-slate-50">
-                      {showServiceDetails === 'blocked' && (
-                        <div className="flex flex-col items-center justify-center h-full text-center animate-fade-in">
-                          <AlertTriangle className="h-16 w-16 text-red-500 mb-4" />
-                          <h4 className="text-xl font-bold text-red-600 mb-2">FAKE CARD DETECTED</h4>
-                          <p className="text-red-500">Access to government services blocked due to invalid card.</p>
-                        </div>
-                      )}
-
-                      {showServiceDetails && showServiceDetails !== 'blocked' && selectedUser && currentUser && !currentUser.is_fake && (
-                        <div className="animate-fade-in">
-                          <div className="flex items-center text-voting-primary mb-4 pb-2 border-b">
-                            {showServiceDetails === 'pension' && (
-                              <>
-                                <CreditCard className="h-5 w-5 mr-2" />
-                                <h4 className="text-lg font-semibold">Pension Account Details</h4>
-                              </>
-                            )}
-                            {showServiceDetails === 'ration' && (
-                              <>
-                                <Package className="h-5 w-5 mr-2" />
-                                <h4 className="text-lg font-semibold">Ration Card Details</h4>
-                              </>
-                            )}
-                            {showServiceDetails === 'medical' && (
-                              <>
-                                <Hospital className="h-5 w-5 mr-2" />
-                                <h4 className="text-lg font-semibold">Medical Coverage Details</h4>
-                              </>
-                            )}
-                          </div>
-                          
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                            <div className="space-y-1">
-                              <span className="text-sm text-gray-500">Name</span>
-                              <p className="font-medium">{currentUser.name}</p>
-                            </div>
-                            <div className="space-y-1">
-                              <span className="text-sm text-gray-500">Age</span>
-                              <p className="font-medium">{currentUser.age}</p>
-                            </div>
-                            <div className="space-y-1 sm:col-span-2">
-                              <span className="text-sm text-gray-500">Voter ID</span>
-                              <p className="font-medium">{currentUser.voter_id}</p>
-                            </div>
-                          </div>
-                          
-                          <Separator className="my-4" />
-                          
-                          {/* Service-specific details */}
-                          <div className="space-y-3">
-                            {showServiceDetails === 'pension' && currentUser.pension && (
-                              <>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                                  <div className="space-y-1">
-                                    <span className="text-gray-500">Account ID</span>
-                                    <p className="font-medium">{currentUser.pension.account_id}</p>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <span className="text-gray-500">Monthly Amount</span>
-                                    <p className="font-medium text-green-600">{currentUser.pension.monthly_amount}</p>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <span className="text-gray-500">Last Payout</span>
-                                    <p className="font-medium">{currentUser.pension.last_payout}</p>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <span className="text-gray-500">Years of Service</span>
-                                    <p className="font-medium">{currentUser.pension.years_of_service}</p>
-                                  </div>
-                                </div>
-                              </>
-                            )}
-                            
-                            {showServiceDetails === 'ration' && (
-                              <>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                                  <div className="space-y-1">
-                                    <span className="text-gray-500">Card Number</span>
-                                    <p className="font-medium">{currentUser.ration.card_number}</p>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <span className="text-gray-500">Category</span>
-                                    <p className="font-medium text-blue-600">{currentUser.ration.category}</p>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <span className="text-gray-500">Family Members</span>
-                                    <p className="font-medium">{currentUser.ration.family_members}</p>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <span className="text-gray-500">Last Collection</span>
-                                    <p className="font-medium">{currentUser.ration.last_collection}</p>
-                                  </div>
-                                  <div className="space-y-1 sm:col-span-2">
-                                    <span className="text-gray-500">Monthly Allocation</span>
-                                    <p className="font-medium">{currentUser.ration.monthly_allocation}</p>
-                                  </div>
-                                </div>
-                              </>
-                            )}
-                            
-                            {showServiceDetails === 'medical' && (
-                              <>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                                  <div className="space-y-1">
-                                    <span className="text-gray-500">Medical ID</span>
-                                    <p className="font-medium">{currentUser.medical.id}</p>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <span className="text-gray-500">Coverage Type</span>
-                                    <p className="font-medium text-blue-600">{currentUser.medical.coverage}</p>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <span className="text-gray-500">Last Checkup</span>
-                                    <p className="font-medium">{currentUser.medical.last_checkup}</p>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <span className="text-gray-500">Next Appointment</span>
-                                    <p className="font-medium">{currentUser.medical.upcoming_appointment}</p>
-                                  </div>
-                                  <div className="space-y-1">
-                                    <span className="text-gray-500">Doctor</span>
-                                    <p className="font-medium">{currentUser.medical.doctor}</p>
-                                  </div>
-                                  {currentUser.medical.prescriptions && (
-                                    <div className="space-y-1">
-                                      <span className="text-gray-500">Prescriptions</span>
-                                      <p className="font-medium">{currentUser.medical.prescriptions}</p>
-                                    </div>
-                                  )}
-                                </div>
-                              </>
-                            )}
-                          </div>
-                          
-                          <div className="mt-6 flex items-center justify-center">
-                            <div className="flex items-center text-green-600 bg-green-50 px-3 py-2 rounded-full">
-                              <ShieldCheck className="w-4 h-4 mr-2" />
-                              <span className="text-sm font-medium">Verified by Ncrypt System</span>
-                            </div>
-                          </div>
-                        </div>
-                      )}
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+              
+              {/* Right Section - Services and Details (2/3 width on xl screens) */}
+              <div className="xl:col-span-2 space-y-6">
+                
+                {/* Service Selection */}
+                <Card>
+                  <CardHeader className="pb-4">
+                    <CardTitle className="flex items-center text-lg">
+                      <Building2 className="h-5 w-5 mr-2" />
+                      Available Services
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <Button
+                        onClick={() => handleServiceClick('ration')}
+                        variant={showServiceDetails === 'ration' ? "default" : "outline"}
+                        className={cn(
+                          "h-auto p-6 flex flex-col items-center transition-all duration-200 hover:scale-105",
+                          showServiceDetails === 'ration' && "bg-voting-primary hover:bg-voting-secondary shadow-lg"
+                        )}
+                      >
+                        <Package className="h-8 w-8 mb-3" />
+                        <span className="text-base font-medium">Ration Center</span>
+                        <span className="text-sm opacity-70">PDS Services</span>
+                      </Button>
                       
-                      {!showServiceDetails && (
-                        <div className="flex items-center justify-center h-full">
-                          <div className="text-center text-gray-400">
-                            <Building2 className="h-12 w-12 mx-auto mb-3 text-gray-300" />
-                            <p className="text-sm">Select a government service to view details</p>
-                            <p className="text-xs mt-1">Choose a card first, then select a service</p>
+                      <Button
+                        onClick={() => handleServiceClick('medical')}
+                        variant={showServiceDetails === 'medical' ? "default" : "outline"}
+                        className={cn(
+                          "h-auto p-6 flex flex-col items-center transition-all duration-200 hover:scale-105",
+                          showServiceDetails === 'medical' && "bg-voting-primary hover:bg-voting-secondary shadow-lg"
+                        )}
+                      >
+                        <Hospital className="h-8 w-8 mb-3" />
+                        <span className="text-base font-medium">Health Center</span>
+                        <span className="text-sm opacity-70">Medical Services</span>
+                      </Button>
+                      
+                      <Button
+                        onClick={() => handleServiceClick('pension')}
+                        variant={showServiceDetails === 'pension' ? "default" : "outline"}
+                        className={cn(
+                          "h-auto p-6 flex flex-col items-center transition-all duration-200 hover:scale-105",
+                          showServiceDetails === 'pension' && "bg-voting-primary hover:bg-voting-secondary shadow-lg",
+                          (!currentUser || !currentUser.pension) && "opacity-50"
+                        )}
+                      >
+                        <CreditCard className="h-8 w-8 mb-3" />
+                        <span className="text-base font-medium">Pension Center</span>
+                        <span className="text-sm opacity-70">
+                          {currentUser?.pension ? "Available" : "Not Eligible"}
+                        </span>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Service Details Panel */}
+                <Card className="min-h-[400px]">
+                  <CardContent className="p-6">
+                    {showServiceDetails === 'blocked' && (
+                      <div className="flex flex-col items-center justify-center h-full text-center animate-fade-in min-h-[300px]">
+                        <AlertTriangle className="h-20 w-20 text-red-500 mb-4" />
+                        <h4 className="text-2xl font-bold text-red-600 mb-2">FAKE CARD DETECTED</h4>
+                        <p className="text-red-500 text-lg">Access to government services blocked due to invalid card.</p>
+                      </div>
+                    )}
+
+                    {showServiceDetails && showServiceDetails !== 'blocked' && selectedUser && currentUser && !currentUser.is_fake && (
+                      <div className="animate-fade-in">
+                        <div className="flex items-center text-voting-primary mb-6 pb-3 border-b">
+                          {showServiceDetails === 'pension' && (
+                            <>
+                              <CreditCard className="h-6 w-6 mr-3" />
+                              <h4 className="text-xl font-semibold">Pension Account Details</h4>
+                            </>
+                          )}
+                          {showServiceDetails === 'ration' && (
+                            <>
+                              <Package className="h-6 w-6 mr-3" />
+                              <h4 className="text-xl font-semibold">Ration Card Details</h4>
+                            </>
+                          )}
+                          {showServiceDetails === 'medical' && (
+                            <>
+                              <Hospital className="h-6 w-6 mr-3" />
+                              <h4 className="text-xl font-semibold">Medical Coverage Details</h4>
+                            </>
+                          )}
+                        </div>
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                          <div className="space-y-1">
+                            <span className="text-sm text-gray-500">Name</span>
+                            <p className="font-medium text-base">{currentUser.name}</p>
+                          </div>
+                          <div className="space-y-1">
+                            <span className="text-sm text-gray-500">Age</span>
+                            <p className="font-medium text-base">{currentUser.age}</p>
+                          </div>
+                          <div className="space-y-1">
+                            <span className="text-sm text-gray-500">Voter ID</span>
+                            <p className="font-medium text-base">{currentUser.voter_id}</p>
                           </div>
                         </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                        
+                        <Separator className="my-6" />
+                        
+                        {/* Service-specific details */}
+                        <div className="space-y-4">
+                          {showServiceDetails === 'pension' && currentUser.pension && (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                              <div className="space-y-1">
+                                <span className="text-sm text-gray-500">Account ID</span>
+                                <p className="font-medium text-base">{currentUser.pension.account_id}</p>
+                              </div>
+                              <div className="space-y-1">
+                                <span className="text-sm text-gray-500">Monthly Amount</span>
+                                <p className="font-medium text-base text-green-600">{currentUser.pension.monthly_amount}</p>
+                              </div>
+                              <div className="space-y-1">
+                                <span className="text-sm text-gray-500">Last Payout</span>
+                                <p className="font-medium text-base">{currentUser.pension.last_payout}</p>
+                              </div>
+                              <div className="space-y-1">
+                                <span className="text-sm text-gray-500">Years of Service</span>
+                                <p className="font-medium text-base">{currentUser.pension.years_of_service}</p>
+                              </div>
+                            </div>
+                          )}
+                          
+                          {showServiceDetails === 'ration' && (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                              <div className="space-y-1">
+                                <span className="text-sm text-gray-500">Card Number</span>
+                                <p className="font-medium text-base">{currentUser.ration.card_number}</p>
+                              </div>
+                              <div className="space-y-1">
+                                <span className="text-sm text-gray-500">Category</span>
+                                <p className="font-medium text-base text-blue-600">{currentUser.ration.category}</p>
+                              </div>
+                              <div className="space-y-1">
+                                <span className="text-sm text-gray-500">Family Members</span>
+                                <p className="font-medium text-base">{currentUser.ration.family_members}</p>
+                              </div>
+                              <div className="space-y-1">
+                                <span className="text-sm text-gray-500">Last Collection</span>
+                                <p className="font-medium text-base">{currentUser.ration.last_collection}</p>
+                              </div>
+                              <div className="space-y-1 sm:col-span-2">
+                                <span className="text-sm text-gray-500">Monthly Allocation</span>
+                                <p className="font-medium text-base">{currentUser.ration.monthly_allocation}</p>
+                              </div>
+                            </div>
+                          )}
+                          
+                          {showServiceDetails === 'medical' && (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                              <div className="space-y-1">
+                                <span className="text-sm text-gray-500">Medical ID</span>
+                                <p className="font-medium text-base">{currentUser.medical.id}</p>
+                              </div>
+                              <div className="space-y-1">
+                                <span className="text-sm text-gray-500">Coverage Type</span>
+                                <p className="font-medium text-base text-blue-600">{currentUser.medical.coverage}</p>
+                              </div>
+                              <div className="space-y-1">
+                                <span className="text-sm text-gray-500">Last Checkup</span>
+                                <p className="font-medium text-base">{currentUser.medical.last_checkup}</p>
+                              </div>
+                              <div className="space-y-1">
+                                <span className="text-sm text-gray-500">Next Appointment</span>
+                                <p className="font-medium text-base">{currentUser.medical.upcoming_appointment}</p>
+                              </div>
+                              <div className="space-y-1">
+                                <span className="text-sm text-gray-500">Doctor</span>
+                                <p className="font-medium text-base">{currentUser.medical.doctor}</p>
+                              </div>
+                              {currentUser.medical.prescriptions && (
+                                <div className="space-y-1">
+                                  <span className="text-sm text-gray-500">Prescriptions</span>
+                                  <p className="font-medium text-base">{currentUser.medical.prescriptions}</p>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                        
+                        <div className="mt-8 flex items-center justify-center">
+                          <div className="flex items-center text-green-600 bg-green-50 px-4 py-3 rounded-full">
+                            <ShieldCheck className="w-5 h-5 mr-2" />
+                            <span className="font-medium">Verified by Ncrypt System</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {!showServiceDetails && (
+                      <div className="flex items-center justify-center h-full min-h-[300px]">
+                        <div className="text-center text-gray-400">
+                          <Building2 className="h-16 w-16 mx-auto mb-4 text-gray-300" />
+                          <p className="text-lg mb-2">Select a government service to view details</p>
+                          <p className="text-sm">Choose a card first, then select a service above</p>
+                        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </div>
         )}
       </main>
@@ -871,3 +887,4 @@ const User = ({ className }: { className?: string }) => {
 };
 
 export default Index;
+
