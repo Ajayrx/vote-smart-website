@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import VoterVerification from "@/components/VoterVerification";
 import { Button } from "@/components/ui/button";
@@ -194,6 +195,8 @@ const Index = () => {
     setIsVerified(false);
     setGovSignature("");
   };
+
+  const currentUser = selectedUser ? userProfiles[selectedUser as keyof typeof userProfiles] : null;
   
   return (
     <div className="min-h-screen bg-slate-50">
@@ -498,7 +501,7 @@ const Index = () => {
                   
                   {/* Service details panel - 3 columns */}
                   <div className="lg:col-span-3 min-h-[200px] sm:min-h-[300px]">
-                    {showServiceDetails && selectedUser && isVerified && (
+                    {showServiceDetails && selectedUser && isVerified && currentUser && (
                       <div className="bg-[#0a1926] border border-gray-800 rounded-lg p-4 sm:p-5 h-full animate-fade-in">
                         <div className="flex items-center text-cyan-400 mb-4">
                           {showServiceDetails === 'pension' && (
@@ -525,97 +528,97 @@ const Index = () => {
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                             <div className="flex justify-between sm:block">
                               <span className="text-gray-400">Name:</span>
-                              <span className="font-medium text-white">{userProfiles[selectedUser as keyof typeof userProfiles].name}</span>
+                              <span className="font-medium text-white">{currentUser.name}</span>
                             </div>
                             <div className="flex justify-between sm:block">
                               <span className="text-gray-400">Age:</span>
-                              <span className="font-medium text-white">{userProfiles[selectedUser as keyof typeof userProfiles].age}</span>
+                              <span className="font-medium text-white">{currentUser.age}</span>
                             </div>
                             <div className="flex justify-between sm:block sm:col-span-2">
                               <span className="text-gray-400">Voter ID:</span>
-                              <span className="font-medium text-white">{userProfiles[selectedUser as keyof typeof userProfiles].voter_id}</span>
+                              <span className="font-medium text-white">{currentUser.voter_id}</span>
                             </div>
                           </div>
                         </div>
                         
                         {/* Service-specific details */}
                         <div className="space-y-3 text-sm">
-                          {showServiceDetails === 'pension' && userProfiles[selectedUser as keyof typeof userProfiles].pension && (
+                          {showServiceDetails === 'pension' && 'pension' in currentUser && currentUser.pension && (
                             <>
                               <div className="flex justify-between">
                                 <span className="text-gray-400">Pension Account ID:</span>
-                                <span className="font-medium text-white">{userProfiles[selectedUser as keyof typeof userProfiles].pension!.account_id}</span>
+                                <span className="font-medium text-white">{currentUser.pension.account_id}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-gray-400">Monthly Pension:</span>
-                                <span className="font-medium text-cyan-400">{userProfiles[selectedUser as keyof typeof userProfiles].pension!.monthly_amount}</span>
+                                <span className="font-medium text-cyan-400">{currentUser.pension.monthly_amount}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-gray-400">Last Payout:</span>
-                                <span className="font-medium text-white">{userProfiles[selectedUser as keyof typeof userProfiles].pension!.last_payout}</span>
+                                <span className="font-medium text-white">{currentUser.pension.last_payout}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-gray-400">Years of Service:</span>
-                                <span className="font-medium text-white">{userProfiles[selectedUser as keyof typeof userProfiles].pension!.years_of_service}</span>
+                                <span className="font-medium text-white">{currentUser.pension.years_of_service}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-gray-400">Retirement Date:</span>
-                                <span className="font-medium text-white">{userProfiles[selectedUser as keyof typeof userProfiles].pension!.retirement_date}</span>
+                                <span className="font-medium text-white">{currentUser.pension.retirement_date}</span>
                               </div>
                             </>
                           )}
                           
-                          {showServiceDetails === 'ration' && userProfiles[selectedUser as keyof typeof userProfiles].ration && (
+                          {showServiceDetails === 'ration' && (
                             <>
                               <div className="flex justify-between">
                                 <span className="text-gray-400">Ration Card Number:</span>
-                                <span className="font-medium text-white">{userProfiles[selectedUser as keyof typeof userProfiles].ration.card_number}</span>
+                                <span className="font-medium text-white">{currentUser.ration.card_number}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-gray-400">Category:</span>
-                                <span className="font-medium text-cyan-400">{userProfiles[selectedUser as keyof typeof userProfiles].ration.category}</span>
+                                <span className="font-medium text-cyan-400">{currentUser.ration.category}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-gray-400">Family Members:</span>
-                                <span className="font-medium text-white">{userProfiles[selectedUser as keyof typeof userProfiles].ration.family_members}</span>
+                                <span className="font-medium text-white">{currentUser.ration.family_members}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-gray-400">Monthly Allocation:</span>
-                                <span className="font-medium text-white">{userProfiles[selectedUser as keyof typeof userProfiles].ration.monthly_allocation}</span>
+                                <span className="font-medium text-white">{currentUser.ration.monthly_allocation}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-gray-400">Last Collection:</span>
-                                <span className="font-medium text-white">{userProfiles[selectedUser as keyof typeof userProfiles].ration.last_collection}</span>
+                                <span className="font-medium text-white">{currentUser.ration.last_collection}</span>
                               </div>
                             </>
                           )}
                           
-                          {showServiceDetails === 'medical' && userProfiles[selectedUser as keyof typeof userProfiles].medical && (
+                          {showServiceDetails === 'medical' && (
                             <>
                               <div className="flex justify-between">
                                 <span className="text-gray-400">Medical ID:</span>
-                                <span className="font-medium text-white">{userProfiles[selectedUser as keyof typeof userProfiles].medical.id}</span>
+                                <span className="font-medium text-white">{currentUser.medical.id}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-gray-400">Coverage Type:</span>
-                                <span className="font-medium text-cyan-400">{userProfiles[selectedUser as keyof typeof userProfiles].medical.coverage}</span>
+                                <span className="font-medium text-cyan-400">{currentUser.medical.coverage}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-gray-400">Last Checkup:</span>
-                                <span className="font-medium text-white">{userProfiles[selectedUser as keyof typeof userProfiles].medical.last_checkup}</span>
+                                <span className="font-medium text-white">{currentUser.medical.last_checkup}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-gray-400">Upcoming Appointment:</span>
-                                <span className="font-medium text-white">{userProfiles[selectedUser as keyof typeof userProfiles].medical.upcoming_appointment}</span>
+                                <span className="font-medium text-white">{currentUser.medical.upcoming_appointment}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-gray-400">Assigned Doctor:</span>
-                                <span className="font-medium text-white">{userProfiles[selectedUser as keyof typeof userProfiles].medical.doctor}</span>
+                                <span className="font-medium text-white">{currentUser.medical.doctor}</span>
                               </div>
-                              {userProfiles[selectedUser as keyof typeof userProfiles].medical.prescriptions && (
+                              {'prescriptions' in currentUser.medical && currentUser.medical.prescriptions && (
                                 <div className="flex justify-between">
                                   <span className="text-gray-400">Prescriptions:</span>
-                                  <span className="font-medium text-white">{userProfiles[selectedUser as keyof typeof userProfiles].medical.prescriptions}</span>
+                                  <span className="font-medium text-white">{currentUser.medical.prescriptions}</span>
                                 </div>
                               )}
                             </>
@@ -680,10 +683,10 @@ const Index = () => {
                   <h4 className="text-base sm:text-lg font-medium mb-1">Health Hospital</h4>
                   <p className="text-xs sm:text-sm text-gray-400">Government Medical Services</p>
                   
-                  {selectedUser && userProfiles[selectedUser as keyof typeof userProfiles].medical && (
+                  {selectedUser && currentUser && (
                     <div className="mt-3 bg-cyan-950/30 py-1 px-2 rounded text-xs inline-flex items-center">
                       <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full mr-1"></span>
-                      Next: {userProfiles[selectedUser as keyof typeof userProfiles].medical.upcoming_appointment}
+                      Next: {currentUser.medical.upcoming_appointment}
                     </div>
                   )}
                 </button>
@@ -693,9 +696,9 @@ const Index = () => {
                   className={cn(
                     "bg-[#0a1926] hover:bg-[#0d1e2d] border border-gray-800 rounded-lg p-4 sm:p-6 text-center transition-all duration-300 sm:col-span-2 lg:col-span-1",
                     showServiceDetails === 'pension' && "ring-2 ring-cyan-500 shadow-[0_0_15px_rgba(34,211,238,0.3)]",
-                    (!userProfiles[selectedUser as keyof typeof userProfiles]?.pension || (!isVerified && verificationAttempted)) && "opacity-50 cursor-not-allowed"
+                    (!currentUser || !('pension' in currentUser) || (!isVerified && verificationAttempted)) && "opacity-50 cursor-not-allowed"
                   )}
-                  disabled={!userProfiles[selectedUser as keyof typeof userProfiles]?.pension}
+                  disabled={!currentUser || !('pension' in currentUser)}
                 >
                   <div className="h-10 w-10 sm:h-12 sm:w-12 bg-gray-800/80 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                     <CreditCard className="h-5 w-5 sm:h-6 sm:w-6 text-cyan-400" />
@@ -703,9 +706,9 @@ const Index = () => {
                   <h4 className="text-base sm:text-lg font-medium mb-1">Pension Centre</h4>
                   <p className="text-xs sm:text-sm text-gray-400">Government Pension Scheme</p>
                   
-                  {selectedUser && userProfiles[selectedUser as keyof typeof userProfiles].pension ? (
+                  {selectedUser && currentUser && 'pension' in currentUser && currentUser.pension ? (
                     <div className="mt-3 text-xs text-cyan-400 font-medium">
-                      {userProfiles[selectedUser as keyof typeof userProfiles].pension!.monthly_amount}/month
+                      {currentUser.pension.monthly_amount}/month
                     </div>
                   ) : (
                     <div className="mt-3 text-xs text-gray-500">
