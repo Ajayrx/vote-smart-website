@@ -1,7 +1,10 @@
+
 import { useState } from "react";
 import VoterVerification from "@/components/VoterVerification";
 import { Button } from "@/components/ui/button";
-import { Info, Github, FileInput, ScanLine, ShieldCheck, Building2, ChevronDown, Home, CreditCard, Hospital, Package, AlertTriangle } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Info, Github, FileInput, ScanLine, ShieldCheck, Building2, ChevronDown, Home, CreditCard, Hospital, Package, AlertTriangle, UserRound } from "lucide-react";
 import { 
   Dialog, 
   DialogContent, 
