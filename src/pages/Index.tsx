@@ -26,17 +26,57 @@ import NFCCard from "@/components/NFCCard";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 
+interface PensionData {
+  account_id: string;
+  monthly_amount: string;
+  last_payout: string;
+  years_of_service: string;
+  retirement_date: string;
+}
+
+interface MedicalData {
+  id: string;
+  coverage: string;
+  last_checkup: string;
+  upcoming_appointment: string;
+  doctor: string;
+  prescriptions?: string;
+}
+
+interface RationData {
+  card_number: string;
+  family_members: string;
+  category: string;
+  monthly_allocation: string;
+  last_collection: string;
+}
+
+interface UserProfile {
+  name: string;
+  voter_id: string;
+  age: string;
+  card: {
+    name: string;
+    voter_id: string;
+  };
+  gov_signature: string;
+  ration: RationData;
+  medical: MedicalData;
+  pension?: PensionData;
+  is_fake?: boolean;
+}
+
 const Index = () => {
   const { toast } = useToast();
   const [activeSection, setActiveSection] = useState<'voting' | 'services'>('voting');
   const [selectedUser, setSelectedUser] = useState<string | null>("priya");
   const [showServiceDetails, setShowServiceDetails] = useState<string | null>(null);
   const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
-  const [govSignature, setGovSignature] = useState("");
   const [isVerified, setIsVerified] = useState<boolean>(false);
   const [verificationAttempted, setVerificationAttempted] = useState<boolean>(false);
+  const [showMoreCards, setShowMoreCards] = useState<boolean>(false);
   
-  const userProfiles = {
+  const userProfiles: Record<string, UserProfile> = {
     arjun: {
       name: "Arjun Kumar",
       voter_id: "NCR-789456",
@@ -117,8 +157,80 @@ const Index = () => {
         doctor: "Dr. Patel"
       }
     },
-    // Fake user for testing
-    fake_user: {
+    anjali: {
+      name: "Anjali Gupta",
+      voter_id: "NCR-556677",
+      age: "29",
+      card: {
+        name: "Anjali Gupta",
+        voter_id: "NCR-556677"
+      },
+      gov_signature: "gov_secure_2025",
+      ration: {
+        card_number: "RATNCR-4455",
+        family_members: "1",
+        category: "APL",
+        monthly_allocation: "15kg Rice, 8kg Wheat, 2L Oil",
+        last_collection: "April 5, 2025"
+      },
+      medical: {
+        id: "HLT-50334",
+        coverage: "Basic Plus",
+        last_checkup: "March 10, 2025",
+        upcoming_appointment: "June 10, 2025",
+        doctor: "Dr. Sharma"
+      }
+    },
+    vikram: {
+      name: "Vikram Yadav",
+      voter_id: "NCR-998877",
+      age: "45",
+      card: {
+        name: "Vikram Yadav",
+        voter_id: "NCR-998877"
+      },
+      gov_signature: "gov_secure_2025",
+      ration: {
+        card_number: "RATNCR-6633",
+        family_members: "5",
+        category: "BPL",
+        monthly_allocation: "40kg Rice, 20kg Wheat, 8L Oil, 3kg Sugar",
+        last_collection: "March 28, 2025"
+      },
+      medical: {
+        id: "HLT-60445",
+        coverage: "Family Coverage",
+        last_checkup: "February 20, 2025",
+        upcoming_appointment: "May 20, 2025",
+        doctor: "Dr. Patel"
+      }
+    },
+    meera: {
+      name: "Meera Jain",
+      voter_id: "NCR-334455",
+      age: "38",
+      card: {
+        name: "Meera Jain",
+        voter_id: "NCR-334455"
+      },
+      gov_signature: "gov_secure_2025",
+      ration: {
+        card_number: "RATNCR-7744",
+        family_members: "3",
+        category: "APL",
+        monthly_allocation: "22kg Rice, 12kg Wheat, 4L Oil",
+        last_collection: "April 2, 2025"
+      },
+      medical: {
+        id: "HLT-70556",
+        coverage: "Comprehensive",
+        last_checkup: "March 15, 2025",
+        upcoming_appointment: "June 15, 2025",
+        doctor: "Dr. Reddy"
+      }
+    },
+    // Fake users for testing
+    fake_user1: {
       name: "John Hacker",
       voter_id: "FAKE-001",
       age: "35",
@@ -127,6 +239,7 @@ const Index = () => {
         voter_id: "FAKE-001"
       },
       gov_signature: "fake_signature_invalid",
+      is_fake: true,
       ration: {
         card_number: "FAKE-001",
         family_members: "1",
@@ -141,47 +254,158 @@ const Index = () => {
         upcoming_appointment: "BLOCKED",
         doctor: "UNAUTHORIZED"
       }
-    }
-  };
-
-  const handleSignatureVerification = () => {
-    setVerificationAttempted(true);
-    if (!selectedUser) return;
-    
-    const user = userProfiles[selectedUser as keyof typeof userProfiles];
-    const isValid = user.gov_signature === govSignature;
-    setIsVerified(isValid);
-    
-    if (isValid) {
-      toast({
-        title: "✅ Verification Successful",
-        description: "Government signature verified. Access granted to services.",
-      });
-    } else {
-      toast({
-        title: "🚨 Verification Failed",
-        description: "Invalid government signature. Access denied.",
-        variant: "destructive"
-      });
+    },
+    fake_user2: {
+      name: "Jane Fraudster",
+      voter_id: "FAKE-002",
+      age: "28",
+      card: {
+        name: "Jane Fraudster",
+        voter_id: "FAKE-002"
+      },
+      gov_signature: "fake_signature_invalid",
+      is_fake: true,
+      ration: {
+        card_number: "FAKE-002",
+        family_members: "1",
+        category: "INVALID",
+        monthly_allocation: "UNAUTHORIZED ACCESS",
+        last_collection: "NEVER"
+      },
+      medical: {
+        id: "FAKE-002",
+        coverage: "NONE",
+        last_checkup: "INVALID",
+        upcoming_appointment: "BLOCKED",
+        doctor: "UNAUTHORIZED"
+      }
+    },
+    // Additional cards for show more feature
+    suresh: {
+      name: "Suresh Reddy",
+      voter_id: "NCR-445566",
+      age: "52",
+      card: {
+        name: "Suresh Reddy",
+        voter_id: "NCR-445566"
+      },
+      gov_signature: "gov_secure_2025",
+      ration: {
+        card_number: "RATNCR-8855",
+        family_members: "4",
+        category: "BPL",
+        monthly_allocation: "30kg Rice, 15kg Wheat, 6L Oil, 2kg Sugar",
+        last_collection: "March 30, 2025"
+      },
+      pension: {
+        account_id: "PCT-7654",
+        monthly_amount: "₹2,800",
+        last_payout: "1st April 2025",
+        years_of_service: "28",
+        retirement_date: "2024"
+      },
+      medical: {
+        id: "HLT-80667",
+        coverage: "Senior Coverage",
+        last_checkup: "February 28, 2025",
+        upcoming_appointment: "May 28, 2025",
+        doctor: "Dr. Kumar"
+      }
+    },
+    kavita: {
+      name: "Kavita Nair",
+      voter_id: "NCR-667788",
+      age: "33",
+      card: {
+        name: "Kavita Nair",
+        voter_id: "NCR-667788"
+      },
+      gov_signature: "gov_secure_2025",
+      ration: {
+        card_number: "RATNCR-9966",
+        family_members: "2",
+        category: "APL",
+        monthly_allocation: "18kg Rice, 10kg Wheat, 3L Oil",
+        last_collection: "April 3, 2025"
+      },
+      medical: {
+        id: "HLT-90778",
+        coverage: "Basic",
+        last_checkup: "March 5, 2025",
+        upcoming_appointment: "June 5, 2025",
+        doctor: "Dr. Mehta"
+      }
+    },
+    fake_user3: {
+      name: "Bob Criminal",
+      voter_id: "FAKE-003",
+      age: "42",
+      card: {
+        name: "Bob Criminal",
+        voter_id: "FAKE-003"
+      },
+      gov_signature: "fake_signature_invalid",
+      is_fake: true,
+      ration: {
+        card_number: "FAKE-003",
+        family_members: "1",
+        category: "INVALID",
+        monthly_allocation: "UNAUTHORIZED ACCESS",
+        last_collection: "NEVER"
+      },
+      medical: {
+        id: "FAKE-003",
+        coverage: "NONE",
+        last_checkup: "INVALID",
+        upcoming_appointment: "BLOCKED",
+        doctor: "UNAUTHORIZED"
+      }
+    },
+    fake_user4: {
+      name: "Alice Scammer",
+      voter_id: "FAKE-004",
+      age: "31",
+      card: {
+        name: "Alice Scammer",
+        voter_id: "FAKE-004"
+      },
+      gov_signature: "fake_signature_invalid",
+      is_fake: true,
+      ration: {
+        card_number: "FAKE-004",
+        family_members: "1",
+        category: "INVALID",
+        monthly_allocation: "UNAUTHORIZED ACCESS",
+        last_collection: "NEVER"
+      },
+      medical: {
+        id: "FAKE-004",
+        coverage: "NONE",
+        last_checkup: "INVALID",
+        upcoming_appointment: "BLOCKED",
+        doctor: "UNAUTHORIZED"
+      }
     }
   };
 
   const handleServiceClick = (service: string) => {
-    if (!verificationAttempted) {
+    if (!selectedUser) {
       toast({
-        title: "Verification Required",
-        description: "Please verify your government signature first to access services.",
+        title: "No Card Selected",
+        description: "Please select a voter card first.",
         variant: "destructive"
       });
       return;
     }
-    
-    if (!isVerified) {
+
+    const user = userProfiles[selectedUser];
+    if (user.is_fake) {
       toast({
-        title: "Access Denied",
-        description: "Invalid signature. Cannot access government services.",
+        title: "🚨 FAKE CARD DETECTED",
+        description: "Access denied - Invalid card detected.",
         variant: "destructive"
       });
+      setShowServiceDetails('blocked');
       return;
     }
     
@@ -193,10 +417,14 @@ const Index = () => {
     setShowServiceDetails(null);
     setVerificationAttempted(false);
     setIsVerified(false);
-    setGovSignature("");
   };
 
-  const currentUser = selectedUser ? userProfiles[selectedUser as keyof typeof userProfiles] : null;
+  const currentUser = selectedUser ? userProfiles[selectedUser] : null;
+
+  // Get initial 8 cards (mix of real and fake)
+  const initialCards = Object.keys(userProfiles).slice(0, 8);
+  const additionalCards = Object.keys(userProfiles).slice(8);
+  const cardsToShow = showMoreCards ? Object.keys(userProfiles) : initialCards;
   
   return (
     <div className="min-h-screen bg-slate-50">
@@ -393,26 +621,6 @@ const Index = () => {
                 <p className="text-sm sm:text-lg text-gray-300">
                   Project Ncrypt's identity verification system extends beyond voting to secure access to essential government services.
                 </p>
-                <div className="mt-4 flex items-center justify-center text-sm">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="flex items-center gap-2 text-gray-300 hover:text-white hover:bg-transparent"
-                    onClick={() => setSoundEnabled(!soundEnabled)}
-                  >
-                    {soundEnabled ? (
-                      <>
-                        <Volume2 className="h-4 w-4 text-cyan-400" />
-                        <span>Sound On</span>
-                      </>
-                    ) : (
-                      <>
-                        <VolumeX className="h-4 w-4 text-gray-400" />
-                        <span>Sound Off</span>
-                      </>
-                    )}
-                  </Button>
-                </div>
               </div>
 
               {/* User card selection */}
@@ -420,59 +628,45 @@ const Index = () => {
                 <div className="absolute -top-px left-10 right-10 h-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent"></div>
                 <div className="absolute -bottom-px left-10 right-10 h-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent"></div>
                 
-                <h3 className="text-lg sm:text-xl font-medium text-center mb-4 sm:mb-6 text-cyan-100">Select User Card</h3>
+                <h3 className="text-lg sm:text-xl font-medium text-center mb-4 sm:mb-6 text-cyan-100">Select Voter Card</h3>
                 
-                <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-6 sm:mb-8">
-                  {Object.entries(userProfiles).map(([id, profile]) => (
-                    <button
-                      key={id}
-                      onClick={() => handleUserChange(id)}
-                      className={cn(
-                        "px-3 sm:px-6 py-2 sm:py-3 rounded-md flex items-center transition-all duration-300 text-sm sm:text-base",
-                        selectedUser === id 
-                          ? "bg-gradient-to-r from-cyan-900/80 to-blue-900/80 text-white border border-cyan-500/50 shadow-[0_0_15px_rgba(34,211,238,0.25)]" 
-                          : "bg-gray-800/50 hover:bg-gray-800 text-gray-300 border border-gray-700",
-                        id === 'fake_user' && "border-red-500/50 text-red-300"
-                      )}
-                    >
-                      <User className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2 flex-shrink-0" />
-                      <span className="truncate">{profile.name}</span>
-                      {id === 'fake_user' && <AlertTriangle className="h-3 w-3 sm:h-4 sm:w-4 ml-1 text-red-400" />}
-                    </button>
-                  ))}
+                <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-2 sm:gap-3 mb-4">
+                  {cardsToShow.map((id) => {
+                    const profile = userProfiles[id];
+                    return (
+                      <button
+                        key={id}
+                        onClick={() => handleUserChange(id)}
+                        className={cn(
+                          "p-2 sm:p-3 rounded-md flex flex-col items-center transition-all duration-300 text-xs sm:text-sm border",
+                          selectedUser === id 
+                            ? "bg-gradient-to-r from-cyan-900/80 to-blue-900/80 text-white border-cyan-500/50 shadow-[0_0_15px_rgba(34,211,238,0.25)]" 
+                            : "bg-gray-800/50 hover:bg-gray-800 text-gray-300 border-gray-700",
+                          profile.is_fake && "border-red-500/50 text-red-300"
+                        )}
+                      >
+                        <User className="h-4 w-4 sm:h-5 sm:w-5 mb-1 flex-shrink-0" />
+                        <span className="truncate text-center leading-tight">{profile.name}</span>
+                        <span className="text-xs opacity-70">{profile.voter_id}</span>
+                        {profile.is_fake && <AlertTriangle className="h-3 w-3 mt-1 text-red-400" />}
+                      </button>
+                    );
+                  })}
                 </div>
 
-                {/* Signature verification section */}
-                <div className="mb-6 p-4 bg-[#0d1e2d] rounded-lg border border-gray-700">
-                  <h4 className="text-cyan-400 font-medium mb-3 flex items-center">
-                    <ShieldCheck className="h-4 w-4 mr-2" />
-                    Government Signature Verification
-                  </h4>
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <input
-                      type="text"
-                      value={govSignature}
-                      onChange={(e) => setGovSignature(e.target.value)}
-                      placeholder="Enter government signature"
-                      className="flex-1 px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 text-sm focus:border-cyan-500 focus:outline-none"
-                    />
+                {additionalCards.length > 0 && (
+                  <div className="text-center mb-4">
                     <Button
-                      onClick={handleSignatureVerification}
-                      className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 text-sm"
+                      onClick={() => setShowMoreCards(!showMoreCards)}
+                      variant="outline"
+                      size="sm"
+                      className="bg-gray-800/50 border-gray-700 text-gray-300 hover:bg-gray-700 hover:text-white"
                     >
-                      Verify Signature
+                      {showMoreCards ? 'Show Less Cards' : `Show ${additionalCards.length} More Cards`}
+                      <ChevronDown className={cn("h-4 w-4 ml-2 transition-transform", showMoreCards && "rotate-180")} />
                     </Button>
                   </div>
-                  {verificationAttempted && (
-                    <div className={`mt-3 p-2 rounded text-sm ${
-                      isVerified 
-                        ? 'bg-green-900/50 text-green-300 border border-green-700' 
-                        : 'bg-red-900/50 text-red-300 border border-red-700'
-                    }`}>
-                      {isVerified ? '✅ Signature verified - Access granted' : '❌ Invalid signature - Access denied'}
-                    </div>
-                  )}
-                </div>
+                )}
                 
                 {/* Card and Service details display in grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6">
@@ -483,9 +677,9 @@ const Index = () => {
                         <div className="relative mb-4">
                           <NFCCard 
                             isCardWritten={true}
-                            voterData={userProfiles[selectedUser as keyof typeof userProfiles].card}
+                            voterData={userProfiles[selectedUser].card}
                             className="shadow-[0_0_25px_rgba(34,211,238,0.3)] scale-90 sm:scale-100"
-                            isFake={selectedUser === 'fake_user'}
+                            isFake={userProfiles[selectedUser].is_fake}
                           />
                           <div className="absolute -top-3 -right-3 w-6 h-6 sm:w-8 sm:h-8 bg-cyan-500 rounded-full flex items-center justify-center shadow-lg text-xs font-bold">
                             NFC
@@ -501,7 +695,15 @@ const Index = () => {
                   
                   {/* Service details panel - 3 columns */}
                   <div className="lg:col-span-3 min-h-[200px] sm:min-h-[300px]">
-                    {showServiceDetails && selectedUser && isVerified && currentUser && (
+                    {showServiceDetails === 'blocked' && (
+                      <div className="bg-red-900/20 border border-red-700 rounded-lg p-4 sm:p-5 h-full animate-fade-in flex flex-col items-center justify-center">
+                        <AlertTriangle className="h-12 w-12 text-red-400 mb-4" />
+                        <h4 className="text-xl font-bold text-red-400 mb-2">FAKE CARD DETECTED</h4>
+                        <p className="text-red-300 text-center">Access to government services blocked due to invalid card.</p>
+                      </div>
+                    )}
+
+                    {showServiceDetails && showServiceDetails !== 'blocked' && selectedUser && currentUser && !currentUser.is_fake && (
                       <div className="bg-[#0a1926] border border-gray-800 rounded-lg p-4 sm:p-5 h-full animate-fade-in">
                         <div className="flex items-center text-cyan-400 mb-4">
                           {showServiceDetails === 'pension' && (
@@ -543,7 +745,7 @@ const Index = () => {
                         
                         {/* Service-specific details */}
                         <div className="space-y-3 text-sm">
-                          {showServiceDetails === 'pension' && 'pension' in currentUser && currentUser.pension && (
+                          {showServiceDetails === 'pension' && currentUser.pension && (
                             <>
                               <div className="flex justify-between">
                                 <span className="text-gray-400">Pension Account ID:</span>
@@ -615,7 +817,7 @@ const Index = () => {
                                 <span className="text-gray-400">Assigned Doctor:</span>
                                 <span className="font-medium text-white">{currentUser.medical.doctor}</span>
                               </div>
-                              {'prescriptions' in currentUser.medical && currentUser.medical.prescriptions && (
+                              {currentUser.medical.prescriptions && (
                                 <div className="flex justify-between">
                                   <span className="text-gray-400">Prescriptions:</span>
                                   <span className="font-medium text-white">{currentUser.medical.prescriptions}</span>
@@ -637,9 +839,6 @@ const Index = () => {
                         <div className="text-center text-gray-400 bg-[#0a1926]/50 p-4 sm:p-6 rounded-lg border border-gray-800 border-dashed">
                           <FileInput className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 text-gray-500" />
                           <p className="text-sm">Select a government service to view details</p>
-                          {!isVerified && verificationAttempted && (
-                            <p className="text-xs text-red-400 mt-2">Access denied - Invalid signature</p>
-                          )}
                         </div>
                       </div>
                     )}
@@ -653,8 +852,7 @@ const Index = () => {
                   onClick={() => handleServiceClick('ration')}
                   className={cn(
                     "bg-[#0a1926] hover:bg-[#0d1e2d] border border-gray-800 rounded-lg p-4 sm:p-6 text-center transition-all duration-300",
-                    showServiceDetails === 'ration' && "ring-2 ring-cyan-500 shadow-[0_0_15px_rgba(34,211,238,0.3)]",
-                    !isVerified && verificationAttempted && "opacity-50 cursor-not-allowed"
+                    showServiceDetails === 'ration' && "ring-2 ring-cyan-500 shadow-[0_0_15px_rgba(34,211,238,0.3)]"
                   )}
                 >
                   <div className="h-10 w-10 sm:h-12 sm:w-12 bg-gray-800/80 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
@@ -673,8 +871,7 @@ const Index = () => {
                   onClick={() => handleServiceClick('medical')}
                   className={cn(
                     "bg-[#0a1926] hover:bg-[#0d1e2d] border border-gray-800 rounded-lg p-4 sm:p-6 text-center transition-all duration-300",
-                    showServiceDetails === 'medical' && "ring-2 ring-cyan-500 shadow-[0_0_15px_rgba(34,211,238,0.3)]",
-                    !isVerified && verificationAttempted && "opacity-50 cursor-not-allowed"
+                    showServiceDetails === 'medical' && "ring-2 ring-cyan-500 shadow-[0_0_15px_rgba(34,211,238,0.3)]"
                   )}
                 >
                   <div className="h-10 w-10 sm:h-12 sm:w-12 bg-gray-800/80 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
@@ -683,7 +880,7 @@ const Index = () => {
                   <h4 className="text-base sm:text-lg font-medium mb-1">Health Hospital</h4>
                   <p className="text-xs sm:text-sm text-gray-400">Government Medical Services</p>
                   
-                  {selectedUser && currentUser && (
+                  {selectedUser && currentUser && !currentUser.is_fake && (
                     <div className="mt-3 bg-cyan-950/30 py-1 px-2 rounded text-xs inline-flex items-center">
                       <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full mr-1"></span>
                       Next: {currentUser.medical.upcoming_appointment}
@@ -696,9 +893,8 @@ const Index = () => {
                   className={cn(
                     "bg-[#0a1926] hover:bg-[#0d1e2d] border border-gray-800 rounded-lg p-4 sm:p-6 text-center transition-all duration-300 sm:col-span-2 lg:col-span-1",
                     showServiceDetails === 'pension' && "ring-2 ring-cyan-500 shadow-[0_0_15px_rgba(34,211,238,0.3)]",
-                    (!currentUser || !('pension' in currentUser) || (!isVerified && verificationAttempted)) && "opacity-50 cursor-not-allowed"
+                    (!currentUser || !currentUser.pension) && "opacity-50"
                   )}
-                  disabled={!currentUser || !('pension' in currentUser)}
                 >
                   <div className="h-10 w-10 sm:h-12 sm:w-12 bg-gray-800/80 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                     <CreditCard className="h-5 w-5 sm:h-6 sm:w-6 text-cyan-400" />
@@ -706,7 +902,7 @@ const Index = () => {
                   <h4 className="text-base sm:text-lg font-medium mb-1">Pension Centre</h4>
                   <p className="text-xs sm:text-sm text-gray-400">Government Pension Scheme</p>
                   
-                  {selectedUser && currentUser && 'pension' in currentUser && currentUser.pension ? (
+                  {selectedUser && currentUser && !currentUser.is_fake && currentUser.pension ? (
                     <div className="mt-3 text-xs text-cyan-400 font-medium">
                       {currentUser.pension.monthly_amount}/month
                     </div>
@@ -737,7 +933,7 @@ const Index = () => {
                   </div>
                   <div>
                     <div className="text-xs sm:text-sm font-medium mb-1 text-cyan-100">NFC Card Activated</div>
-                    <div className="text-xs text-gray-400">Verify signature to access services.</div>
+                    <div className="text-xs text-gray-400">Select card to access services.</div>
                   </div>
                 </div>
               </div>
