@@ -1,7 +1,7 @@
 # 🎬 Project Ncrypt — Demo Walkthrough
- Demo of your NFC-based offline voter verification + government services access system via website.
-
-# 🎯 Objective of the Demo
+     Demo of your NFC-based offline voter verification + government services access system via website.
+     
+## 🎯 Objective of the Demo
     Show how an NFC Voter Card is created, verified, and used in an offline environment.
 
 ### 💾 Step 1: Create a Secure NFC Voter Card
