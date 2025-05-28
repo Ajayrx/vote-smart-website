@@ -73,7 +73,5 @@ Age-based check (if age ≥ 60)
 
    - Last Payout Date
 
-# Important Notice 
 
-   Still working on goverment services demo section.
 
